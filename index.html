@@ -1,0 +1,3642 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MacBridge AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MACBRIDGE AI v6 — Design System
+   ============================================================ */
+:root {
+  /* Màu chủ đạo — có thể thay đổi qua settings */
+  --ac1: #FF3CAC;
+  --ac2: #784BA0;
+  --ac3: #2B86C5;
+  --green: #B4F000;
+  --cyan: #06b6d4;
+  --amber: #f59e0b;
+  --red: #ef4444;
+
+  /* Nền tối (mặc định) */
+  --bg-a: #080c14;
+  --bg-b: #0f172a;
+  --bg-c: #1a1040;
+
+  /* Glass */
+  --g0: rgba(255,255,255,0.04);
+  --g1: rgba(255,255,255,0.07);
+  --g2: rgba(255,255,255,0.11);
+  --gb: rgba(255,255,255,0.09);
+  --gc: rgba(255,255,255,0.15);
+
+  /* Text */
+  --t1: #f1f5f9;
+  --t2: rgba(241,245,249,0.6);
+  --t3: rgba(241,245,249,0.3);
+
+  /* Radius */
+  --r1: 12px; --r2: 18px; --r3: 24px; --r4: 32px;
+
+  /* Glow */
+  --gw1: 0 0 24px rgba(255,60,172,0.3);
+  --gw2: 0 0 24px rgba(43,134,197,0.3);
+}
+
+/* Light mode */
+body.light {
+  --bg-a: #eef2ff; --bg-b: #e0e7ff; --bg-c: #ddd6fe;
+  --g0: rgba(0,0,0,0.03); --g1: rgba(0,0,0,0.05); --g2: rgba(0,0,0,0.08);
+  --gb: rgba(255,255,255,0.6); --gc: rgba(255,255,255,0.85);
+  --t1: #1e293b; --t2: rgba(30,41,59,0.65); --t3: rgba(30,41,59,0.35);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+
+body {
+  font-family:'Be Vietnam Pro',sans-serif;
+  background:linear-gradient(145deg,var(--bg-a) 0%,var(--bg-b) 45%,var(--bg-c) 100%);
+  background-attachment:fixed;
+  color:var(--t1);min-height:100vh;overflow-x:hidden;
+}
+
+/* Ambient orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.ob1{width:480px;height:480px;top:-160px;right:-120px;
+  background:radial-gradient(circle,color-mix(in srgb,var(--ac1) 18%,transparent),transparent 70%)}
+.ob2{width:380px;height:380px;bottom:-80px;left:-100px;
+  background:radial-gradient(circle,color-mix(in srgb,var(--ac3) 14%,transparent),transparent 70%)}
+.ob3{width:260px;height:260px;top:38%;left:32%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--green) 7%,transparent),transparent 70%)}
+
+.app{max-width:440px;margin:0 auto;position:relative;z-index:1;padding-bottom:88px}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:sticky;top:0;z-index:300;
+  padding:14px 16px 12px;
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  background:rgba(8,12,20,0.75);
+  border-bottom:1px solid var(--gc);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;
+}
+body.light .topbar{background:rgba(238,242,255,0.82)}
+
+/* Logo */
+.logo{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none}
+.logo-mark{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px color-mix(in srgb,var(--ac1) 45%,transparent);
+}
+.logo-text{font-size:18px;font-weight:900;letter-spacing:-.5px;
+  background:linear-gradient(135deg,var(--ac1),var(--ac3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Topbar right controls */
+.topbar-right{display:flex;align-items:center;gap:8px}
+
+/* XP badge */
+.xp-badge{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 11px;border-radius:20px;
+  background:var(--g1);border:1px solid var(--gc);
+  font-size:12px;font-weight:700;color:var(--green);
+  cursor:pointer;transition:all .2s;
+}
+.xp-badge:hover{background:var(--g2);border-color:var(--green)}
+.xp-badge svg{width:14px;height:14px;color:var(--green)}
+
+/* Dark/Light toggle in topbar */
+.dm-btn{
+  width:34px;height:34px;border-radius:10px;border:1px solid var(--gc);
+  background:var(--g1);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;color:var(--t2);
+}
+.dm-btn:hover{background:var(--g2);color:var(--t1)}
+
+/* Settings cog in topbar */
+.top-settings-btn{
+  width:34px;height:34px;border-radius:10px;border:1px solid var(--gc);
+  background:var(--g1);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;color:var(--t2);
+}
+.top-settings-btn:hover{background:var(--g2);color:var(--t1)}
+
+/* ── SCREENS ── */
+.screen{display:none;padding:0 14px;animation:sIn .28s ease}
+.screen.active{display:block}
+@keyframes sIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Page header */
+.ph{padding:18px 2px 14px;display:flex;align-items:center;gap:10px}
+.ph-icon{
+  width:40px;height:40px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.ph-title{font-size:22px;font-weight:800;color:var(--t1)}
+.ph-sub{font-size:12px;color:var(--t3);margin-top:2px}
+
+/* ── GLASS CARD ── */
+.gc{
+  background:var(--g1);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--gb);border-radius:var(--r3);
+}
+.gc:hover{background:var(--g2)}
+
+/* ── BUTTONS ── */
+.btn-p{
+  padding:11px 22px;border-radius:20px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  color:#fff;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;
+  box-shadow:0 0 20px color-mix(in srgb,var(--ac1) 35%,transparent);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 0 30px color-mix(in srgb,var(--ac1) 50%,transparent)}
+.btn-p:active{transform:scale(.97)}
+.btn-g{
+  padding:9px 18px;border-radius:16px;border:1px solid var(--gc);
+  background:var(--g1);cursor:pointer;color:var(--t2);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:600;transition:all .2s;
+}
+.btn-g:hover{background:var(--g2);color:var(--t1)}
+.btn-g:active{transform:scale(.97)}
+
+/* ── BOTTOM NAV ── */
+.bnav{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  background:rgba(8,12,20,0.88);
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  border:1px solid var(--gc);border-radius:36px;
+  padding:8px 12px;display:flex;gap:2px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.5);z-index:300;
+}
+body.light .bnav{background:rgba(238,242,255,0.9)}
+.nb{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:7px 10px;border-radius:22px;cursor:pointer;border:none;
+  background:transparent;color:var(--t3);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:10px;font-weight:600;
+  transition:all .2s;min-width:48px;
+}
+.nb svg{width:20px;height:20px;transition:transform .2s}
+.nb.active{background:var(--g2);color:var(--t1)}
+.nb.active svg{transform:scale(1.1)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-4px);
+  padding:8px 16px;border-radius:22px;font-size:12px;font-weight:700;
+  opacity:0;transition:all .25s;z-index:999;white-space:nowrap;pointer-events:none;
+  max-width:88vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.t-info{background:var(--g2);backdrop-filter:blur(20px);border:1px solid var(--gc);color:var(--t1)}
+.t-xp{background:linear-gradient(135deg,var(--green),var(--cyan));color:#0f172a}
+.t-win{background:linear-gradient(135deg,var(--ac1),var(--ac2));color:#fff}
+.t-err{background:var(--red);color:#fff}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+/* Hero card */
+.hero{
+  margin:12px 0;border-radius:var(--r4);padding:22px;
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--ac1) 12%,transparent),
+    color-mix(in srgb,var(--ac3) 10%,transparent));
+  border:1px solid color-mix(in srgb,var(--ac1) 22%,transparent);
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 32px color-mix(in srgb,var(--ac1) 10%,transparent);
+}
+.hero::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--ac1) 18%,transparent),transparent 65%);
+  pointer-events:none;
+}
+.hero-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.hero-left{}
+.greeting-label{font-size:11px;color:var(--t3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.hero-name{font-size:20px;font-weight:800;color:var(--t1)}
+.hero-level{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:8px;padding:4px 10px;border-radius:14px;
+  background:color-mix(in srgb,var(--ac1) 14%,transparent);
+  border:1px solid color-mix(in srgb,var(--ac1) 25%,transparent);
+  font-size:11px;font-weight:700;color:var(--ac1);
+}
+
+/* Circular XP */
+.circ-wrap{position:relative;width:76px;height:76px;flex-shrink:0;cursor:pointer}
+.circ-svg{transform:rotate(-90deg)}
+.circ-track{fill:none;stroke:rgba(255,255,255,0.07);stroke-width:6}
+.circ-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+.circ-inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.circ-xp{font-size:15px;font-weight:900;
+  background:linear-gradient(135deg,var(--ac1),var(--ac3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.circ-lbl{font-size:9px;color:var(--t3);font-weight:600;margin-top:1px}
+
+/* Level bar */
+.lbar-wrap{margin-top:14px}
+.lbar-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);margin-bottom:5px}
+.lbar-bg{height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden}
+.lbar-fill{height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--ac1),var(--ac3));
+  transition:width .8s ease}
+
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.stat-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  padding:13px 10px;text-align:center;cursor:default;transition:all .2s;
+}
+.stat-card:hover{background:var(--g2);border-color:var(--gc)}
+.stat-ic{
+  width:34px;height:34px;border-radius:10px;margin:0 auto 7px;
+  display:flex;align-items:center;justify-content:center;
+}
+.stat-ic svg{width:18px;height:18px}
+.stat-val{font-size:15px;font-weight:800;margin-bottom:2px;
+  background:linear-gradient(135deg,var(--ac1),var(--ac3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-lbl{font-size:10px;color:var(--t3);font-weight:600}
+
+/* Module grid */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.mcard{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);
+  padding:18px 14px;cursor:pointer;transition:all .22s;
+  min-height:104px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.mcard:hover{background:var(--g2);border-color:var(--gc);transform:translateY(-2px)}
+.mcard:active{transform:scale(.97)}
+.mcard.wide{grid-column:span 2;flex-direction:row;align-items:center;gap:14px;min-height:64px}
+.mc-ico{
+  width:42px;height:42px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  margin-bottom:10px;
+}
+.mcard.wide .mc-ico{margin-bottom:0}
+.mc-ico svg{width:22px;height:22px;color:#fff}
+.mc-title{font-size:13px;font-weight:700;color:var(--t1)}
+.mc-sub{font-size:11px;color:var(--t3);margin-top:3px}
+
+/* Suggestions */
+.slabel{
+  font-size:11px;font-weight:700;color:var(--t3);
+  text-transform:uppercase;letter-spacing:.07em;
+  margin:16px 2px 8px;display:flex;align-items:center;gap:6px;
+}
+.slabel::before{
+  content:'';width:3px;height:12px;border-radius:2px;
+  background:linear-gradient(180deg,var(--ac1),var(--ac3));flex-shrink:0;
+}
+.sugg-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.sugg-chip{
+  padding:6px 13px;border-radius:16px;
+  background:var(--g1);border:1px solid var(--gb);
+  font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .2s;
+}
+.sugg-chip:hover{
+  background:color-mix(in srgb,var(--ac1) 12%,transparent);
+  border-color:color-mix(in srgb,var(--ac1) 35%,transparent);color:var(--ac1)
+}
+.sugg-chip:active{transform:scale(.97)}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.badge-ic{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--g1);border:1px solid var(--gb);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+
+/* ============================================================
+   AI CHAT
+   ============================================================ */
+.quick-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.qchip{
+  padding:6px 12px;border-radius:15px;
+  background:var(--g1);border:1px solid var(--gb);
+  color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.qchip:hover{background:color-mix(in srgb,var(--ac1) 10%,transparent);
+  border-color:color-mix(in srgb,var(--ac1) 30%,transparent);color:var(--ac1)}
+.qchip:active{transform:scale(.97)}
+
+.chatbox{
+  background:var(--g1);border:1px solid var(--gb);
+  border-radius:var(--r3);padding:14px;
+  height:340px;overflow-y:auto;scroll-behavior:smooth;margin-bottom:10px;
+}
+.chatbox::-webkit-scrollbar{width:3px}
+.chatbox::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ac1) 30%,transparent);border-radius:2px}
+
+.ai-msg{display:flex;gap:9px;margin-bottom:12px;align-items:flex-start;animation:mIn .2s ease}
+.user-msg{display:flex;justify-content:flex-end;margin-bottom:12px;animation:mIn .2s ease}
+@keyframes mIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.av{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  display:flex;align-items:center;justify-content:center;
+}
+.av svg{width:14px;height:14px;color:#fff}
+.bbl{max-width:84%;padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.55}
+.bbl.user{
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));color:#fff;
+  border-bottom-right-radius:4px;font-weight:500;
+  box-shadow:0 0 18px color-mix(in srgb,var(--ac1) 30%,transparent);
+}
+.bbl.ai{
+  background:var(--g1);color:var(--t1);
+  border-bottom-left-radius:4px;border:1px solid var(--gb);
+}
+
+/* Structured AI response */
+.air{display:flex;flex-direction:column;gap:9px}
+.ail{
+  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;
+  display:flex;align-items:center;gap:5px;margin-bottom:4px;
+  background:linear-gradient(135deg,var(--ac1),var(--ac3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ail svg{width:12px;height:12px;color:var(--ac1);flex-shrink:0;
+  -webkit-text-fill-color:initial}
+.air p{font-size:13px;color:var(--t1);line-height:1.5}
+
+.kbd-block{
+  display:inline-flex;gap:4px;align-items:center;
+  background:rgba(255,255,255,0.05);border:1px solid var(--gc);
+  border-radius:9px;padding:7px 11px;
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:var(--green);
+}
+.step-list{display:flex;flex-direction:column;gap:6px}
+.step-row{display:flex;align-items:flex-start;gap:8px;animation:fUp .22s ease both}
+@keyframes fUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.step-num{
+  width:20px;height:20px;border-radius:50%;flex-shrink:0;margin-top:1px;
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  color:#fff;font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.step-row span{font-size:13px;color:var(--t1);line-height:1.5}
+.warn-box{
+  background:color-mix(in srgb,var(--amber) 8%,transparent);
+  border:1px solid color-mix(in srgb,var(--amber) 25%,transparent);
+  border-radius:9px;padding:9px 11px;
+}
+.warn-box p{font-size:12px;color:#fcd34d;line-height:1.5}
+.cause-list{padding-left:14px}
+.cause-list li{font-size:13px;color:var(--t2);line-height:1.6}
+.chip-row{display:flex;gap:7px;flex-wrap:wrap}
+.chip{
+  padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;
+  background:var(--g1);color:var(--t2);cursor:pointer;
+  border:1px solid var(--gb);transition:all .2s;
+}
+.chip:hover{background:color-mix(in srgb,var(--ac1) 12%,transparent);color:var(--ac1)}
+.ilink{
+  background:none;border:none;color:var(--ac3);font-weight:700;
+  cursor:pointer;font-size:13px;font-family:'Be Vietnam Pro',sans-serif;
+  text-decoration:underline;padding:0;
+}
+
+/* Typing dots */
+.dots{display:flex;gap:4px;padding:2px 0}
+.dots span{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--ac1);animation:bnc .9s infinite;
+}
+.dots span:nth-child(2){animation-delay:.14s}
+.dots span:nth-child(3){animation-delay:.28s}
+@keyframes bnc{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+
+.chat-bar{display:flex;gap:9px;align-items:center}
+.chat-in{
+  flex:1;padding:12px 14px;border-radius:var(--r2);
+  border:1px solid var(--gb);background:var(--g1);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:14px;color:var(--t1);
+  outline:none;transition:border-color .2s;
+}
+.chat-in:focus{border-color:color-mix(in srgb,var(--ac1) 50%,transparent)}
+.chat-in::placeholder{color:var(--t3)}
+.send-btn{
+  width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 18px color-mix(in srgb,var(--ac1) 40%,transparent);
+  transition:transform .15s;flex-shrink:0;
+}
+.send-btn svg{width:18px;height:18px;color:#fff}
+.send-btn:active{transform:scale(.88)}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+.search-wrap{position:relative;margin-bottom:12px}
+.search-in{
+  width:100%;padding:13px 40px 13px 42px;
+  border-radius:var(--r3);border:1px solid var(--gc);
+  background:var(--g1);font-family:'Be Vietnam Pro',sans-serif;
+  font-size:15px;color:var(--t1);outline:none;transition:all .2s;
+}
+.search-in:focus{
+  border-color:color-mix(in srgb,var(--ac1) 40%,transparent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--ac1) 8%,transparent);
+}
+.search-in::placeholder{color:var(--t3)}
+.s-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--t3)}
+.s-ico svg{width:18px;height:18px}
+.s-clr{position:absolute;right:13px;top:50%;transform:translateY(-50%);cursor:pointer;color:var(--t3)}
+.s-clr svg{width:16px;height:16px}
+
+.res-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  padding:13px 14px;margin-bottom:9px;cursor:pointer;transition:all .2s;
+}
+.res-card:hover{background:var(--g2);border-color:var(--gc);transform:translateY(-1px)}
+.res-card:active{transform:scale(.98)}
+.res-type{font-size:11px;font-weight:700;color:var(--ac1);margin-bottom:3px}
+.res-title{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.res-sub{font-size:12px;color:var(--t2);line-height:1.4}
+.res-kbd{display:flex;gap:7px;align-items:center;margin-top:7px}
+kbd{
+  background:rgba(255,255,255,0.07);color:var(--t2);
+  border:1px solid var(--gb);border-radius:5px;
+  padding:2px 6px;font-family:'JetBrains Mono',monospace;font-size:11px;
+}
+kbd.k{background:color-mix(in srgb,var(--green) 10%,transparent);
+  color:var(--green);border-color:color-mix(in srgb,var(--green) 25%,transparent)}
+
+/* ============================================================
+   CHECKLIST
+   ============================================================ */
+.prog-hero{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--ac3) 12%,transparent),
+    color-mix(in srgb,var(--green) 6%,transparent));
+  border:1px solid color-mix(in srgb,var(--ac3) 20%,transparent);
+  border-radius:var(--r4);padding:18px;margin-bottom:12px;
+}
+.prog-lbl{font-size:11px;color:var(--t3);font-weight:600}
+.prog-pct{
+  font-size:26px;font-weight:900;
+  background:linear-gradient(135deg,var(--ac3),var(--green));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.pbg{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;margin-top:10px;overflow:hidden}
+.pfill{height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--ac3),var(--green));transition:width .6s ease}
+
+.cl-item{
+  background:var(--g1);border:1px solid var(--gb);
+  border-radius:var(--r2);margin-bottom:9px;overflow:hidden;transition:all .2s;
+}
+.cl-item.done{
+  border-color:color-mix(in srgb,var(--green) 25%,transparent);
+  background:color-mix(in srgb,var(--green) 4%,transparent);
+}
+.cl-head{
+  display:flex;align-items:center;gap:11px;padding:13px 14px;
+  cursor:pointer;transition:background .2s;
+}
+.cl-head:hover{background:var(--g2)}
+.cl-check{font-size:18px;flex-shrink:0;cursor:pointer;transition:transform .2s;padding:3px}
+.cl-check:active{transform:scale(1.3)}
+.cl-info{flex:1}
+.cl-title{font-size:14px;font-weight:600;color:var(--t1);transition:all .2s}
+.cl-item.done .cl-title{text-decoration:line-through;color:var(--t3)}
+.cl-pri{font-size:10px;font-weight:700;margin-top:2px}
+.cl-arr{font-size:18px;color:var(--t3);transition:transform .25s;flex-shrink:0}
+.cl-arr.open{transform:rotate(90deg)}
+.cl-steps{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.cl-steps.open{max-height:500px}
+.cl-step{
+  display:flex;gap:9px;padding:8px 14px;
+  border-top:1px solid var(--gb);font-size:12px;color:var(--t2);line-height:1.5;
+}
+.cl-sn{
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;
+  background:var(--g2);color:var(--t2);font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ============================================================
+   TROUBLESHOOT
+   ============================================================ */
+.ts-card{
+  background:var(--g1);border:1px solid var(--gb);
+  border-radius:var(--r4);padding:22px 18px;
+}
+.ts-q{font-size:17px;font-weight:700;color:var(--t1);margin-bottom:16px;line-height:1.4}
+.ts-opts{display:flex;flex-direction:column;gap:9px}
+.ts-opt{
+  padding:13px 14px;border-radius:var(--r2);
+  background:color-mix(in srgb,var(--t1) 4%,transparent);
+  border:1px solid var(--gb);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:14px;font-weight:600;
+  color:var(--t1);cursor:pointer;text-align:left;transition:all .18s;
+}
+.ts-opt:hover{
+  background:color-mix(in srgb,var(--ac1) 10%,transparent);
+  border-color:color-mix(in srgb,var(--ac1) 30%,transparent);color:var(--ac1);
+}
+.ts-opt:active{transform:scale(.98)}
+.ts-back{
+  margin-top:14px;padding:8px 16px;border-radius:18px;
+  background:var(--g1);border:1px solid var(--gb);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:600;
+  color:var(--t2);cursor:pointer;transition:all .2s;
+}
+.ts-back:hover{background:var(--g2)}
+.ts-back:active{transform:scale(.97)}
+
+/* ============================================================
+   KNOWLEDGE BASE
+   ============================================================ */
+.kb-tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.kb-tabs::-webkit-scrollbar{display:none}
+.kbt{
+  padding:7px 14px;border-radius:18px;font-size:12px;font-weight:700;
+  cursor:pointer;white-space:nowrap;background:var(--g1);
+  border:1px solid var(--gb);color:var(--t2);transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.kbt.active{
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  color:#fff;border-color:transparent;
+  box-shadow:0 0 16px color-mix(in srgb,var(--ac1) 30%,transparent);
+}
+.kbt:active{transform:scale(.97)}
+.kbt-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+.filter-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:7px;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.fc{
+  padding:5px 13px;border-radius:16px;font-size:11px;font-weight:700;
+  white-space:nowrap;background:var(--g1);border:1px solid var(--gb);
+  color:var(--t2);cursor:pointer;transition:all .2s;
+}
+.fc.active{background:linear-gradient(135deg,var(--ac1),var(--ac2));color:#fff;border-color:transparent}
+.fc:active{transform:scale(.97)}
+
+.tip-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  padding:13px 14px;margin-bottom:9px;cursor:pointer;transition:all .2s;
+}
+.tip-card:hover{background:var(--g2);border-color:var(--gc);transform:translateY(-1px)}
+.tip-card:active{transform:scale(.98)}
+.tip-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.tip-title{font-size:14px;font-weight:700;color:var(--t1)}
+.tip-meta{font-size:10px;color:var(--t3);margin-top:2px}
+.tip-desc{font-size:12px;color:var(--t2);line-height:1.4;margin-bottom:7px}
+.tip-keys{display:flex;gap:7px;align-items:center}
+
+.feat-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  padding:14px;margin-bottom:9px;display:flex;gap:13px;transition:all .2s;
+}
+.feat-card:hover{background:var(--g2)}
+.feat-ico{
+  width:44px;height:44px;border-radius:13px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  background:var(--g2);
+}
+.feat-name{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.feat-desc{font-size:12px;color:var(--t2);line-height:1.4;margin-bottom:4px}
+.feat-how{font-size:11px;color:var(--t3)}
+.feat-benefit{font-size:11px;color:var(--green);font-weight:600;margin-top:3px}
+
+.acc-item{
+  background:var(--g1);border:1px solid var(--gb);
+  border-radius:var(--r2);margin-bottom:9px;overflow:hidden;
+}
+.acc-head{
+  padding:13px 14px;display:flex;justify-content:space-between;
+  align-items:center;cursor:pointer;font-size:13px;font-weight:700;
+  color:var(--t1);transition:background .2s;
+}
+.acc-head:hover{background:var(--g2)}
+.acc-head:active{background:color-mix(in srgb,var(--ac1) 7%,transparent)}
+.acc-arr{font-size:18px;color:var(--t3);transition:transform .25s;flex-shrink:0}
+.acc-arr.open{transform:rotate(90deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 14px}
+.acc-body.open{max-height:700px;padding:0 14px 13px}
+.err-causes{font-size:12px;color:var(--t2);margin-bottom:9px;line-height:1.5}
+
+/* ============================================================
+   COMPARE
+   ============================================================ */
+.persona-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:7px;margin-bottom:12px;scrollbar-width:none}
+.persona-row::-webkit-scrollbar{display:none}
+.pc{
+  padding:7px 14px;border-radius:18px;font-size:12px;font-weight:700;
+  white-space:nowrap;background:var(--g1);border:1px solid var(--gb);
+  color:var(--t2);cursor:pointer;transition:all .2s;
+}
+.pc.active{
+  background:linear-gradient(135deg,var(--ac3),var(--ac2));
+  color:#fff;border-color:transparent;
+}
+.pc:active{transform:scale(.97)}
+
+.cmp-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);
+  padding:14px;margin-bottom:11px;
+}
+.cmp-topic{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:11px}
+.cmp-row{display:grid;grid-template-columns:1fr auto 1fr;gap:9px;align-items:start}
+.cmp-box{
+  border-radius:var(--r1);padding:11px;background:rgba(255,255,255,0.04);
+  border:1px solid var(--gb);transition:all .2s;
+}
+.cmp-box.win{
+  background:color-mix(in srgb,var(--ac1) 7%,transparent);
+  border-color:color-mix(in srgb,var(--ac1) 22%,transparent);
+}
+.cmp-vs{font-size:10px;font-weight:800;color:var(--t3);align-self:center}
+.cmp-os{font-size:18px;margin-bottom:2px}
+.cmp-osn{font-size:9px;font-weight:800;color:var(--t3);text-transform:uppercase;margin-bottom:5px}
+.cmp-stars{font-size:11px;margin-bottom:5px}
+.cmp-detail{font-size:11px;color:var(--t2);line-height:1.4}
+.cmp-verdict{margin-top:10px;font-size:11px;color:var(--t2);
+  border-top:1px solid var(--gb);padding-top:9px;font-style:italic}
+
+/* ============================================================
+   SHORTCUT TRAINER
+   ============================================================ */
+.tr-hero{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--ac1) 12%,transparent),
+    color-mix(in srgb,var(--ac2) 10%,transparent));
+  border:1px solid color-mix(in srgb,var(--ac1) 18%,transparent);
+  border-radius:var(--r3);padding:14px 18px;margin-bottom:12px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.tr-pl{font-size:11px;color:var(--t3)}
+.tr-pv{font-size:19px;font-weight:800;color:var(--t1)}
+
+.tr-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r4);
+  padding:26px 18px;margin-bottom:12px;
+  min-height:160px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+}
+.tr-ql{font-size:12px;color:var(--t3);font-weight:600;margin-bottom:16px}
+.tr-keys{display:flex;gap:5px;align-items:center;justify-content:center;margin-bottom:12px}
+.key{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.07);color:var(--green);
+  border:1px solid color-mix(in srgb,var(--green) 28%,transparent);
+  border-radius:9px;padding:7px 13px;
+  font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:500;
+}
+.key-plus{color:var(--t3);font-size:14px}
+.tr-hint{font-size:12px;color:var(--t3)}
+
+.tr-opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.tr-opt{
+  padding:13px 9px;border-radius:var(--r2);
+  background:color-mix(in srgb,var(--t1) 4%,transparent);
+  border:1px solid var(--gb);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:600;
+  color:var(--t1);cursor:pointer;text-align:center;transition:all .15s;line-height:1.3;
+}
+.tr-opt:hover:not(:disabled){
+  background:color-mix(in srgb,var(--ac1) 10%,transparent);
+  border-color:color-mix(in srgb,var(--ac1) 30%,transparent);color:var(--ac1);
+}
+.tr-opt:active:not(:disabled){transform:scale(.97)}
+.tr-opt.correct{
+  background:color-mix(in srgb,var(--green) 10%,transparent);
+  border-color:color-mix(in srgb,var(--green) 35%,transparent);color:var(--green);
+}
+.tr-opt.wrong{
+  background:color-mix(in srgb,var(--red) 10%,transparent);
+  border-color:color-mix(in srgb,var(--red) 30%,transparent);color:#f87171;
+}
+.tr-opt:disabled{opacity:.6;cursor:not-allowed}
+
+/* ============================================================
+   TRACKPAD TRAINER
+   ============================================================ */
+.tp-hero{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--cyan) 10%,transparent),
+    color-mix(in srgb,var(--green) 7%,transparent));
+  border:1px solid color-mix(in srgb,var(--cyan) 18%,transparent);
+  border-radius:var(--r4);padding:18px;margin-bottom:14px;text-align:center;
+}
+.tp-htitle{
+  font-size:20px;font-weight:800;
+  background:linear-gradient(135deg,var(--cyan),var(--green));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.tp-hsub{font-size:12px;color:var(--t3);margin-top:5px}
+
+.tp-prog-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tp-pc{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  padding:11px;text-align:center;
+}
+.tp-pv{font-size:18px;font-weight:800;color:var(--cyan)}
+.tp-pl{font-size:10px;color:var(--t3);margin-top:2px}
+
+.tp-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);
+  padding:18px 16px;margin-bottom:11px;cursor:pointer;transition:all .2s;position:relative;
+}
+.tp-card:hover{background:var(--g2);border-color:color-mix(in srgb,var(--cyan) 30%,transparent);transform:translateY(-2px)}
+.tp-card:active{transform:scale(.98)}
+.tp-card.done{
+  border-color:color-mix(in srgb,var(--green) 28%,transparent);
+  background:color-mix(in srgb,var(--green) 4%,transparent);
+}
+.tp-row{display:flex;align-items:center;gap:13px;margin-bottom:11px}
+.tp-ico{
+  width:48px;height:48px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--cyan) 18%,transparent),
+    color-mix(in srgb,var(--green) 12%,transparent));
+  border:1px solid color-mix(in srgb,var(--cyan) 25%,transparent);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.tp-title{font-size:15px;font-weight:700;color:var(--t1)}
+.tp-sub{font-size:12px;color:var(--cyan);font-weight:600;margin-top:2px}
+.tp-done{font-size:20px;margin-left:auto}
+.tp-instr{font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:11px}
+.tp-hint{font-size:11px;color:var(--t3);font-style:italic;line-height:1.4}
+.tp-btn{
+  width:100%;padding:13px;border-radius:var(--r2);border:none;cursor:pointer;
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--cyan) 18%,transparent),
+    color-mix(in srgb,var(--green) 12%,transparent));
+  border:1px solid color-mix(in srgb,var(--cyan) 30%,transparent);
+  color:var(--cyan);font-family:'Be Vietnam Pro',sans-serif;
+  font-size:13px;font-weight:700;transition:all .2s;margin-top:13px;
+}
+.tp-btn:hover{box-shadow:0 0 18px color-mix(in srgb,var(--cyan) 20%,transparent)}
+.tp-btn:active{transform:scale(.98)}
+.tp-btn.done{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--green) 14%,transparent),
+    color-mix(in srgb,var(--cyan) 8%,transparent));
+  color:var(--green);border-color:color-mix(in srgb,var(--green) 28%,transparent);
+}
+
+/* Trackpad simulator */
+.tp-sim{
+  background:rgba(255,255,255,0.03);border:2px solid var(--gb);border-radius:var(--r2);
+  width:100%;height:140px;position:relative;overflow:hidden;cursor:crosshair;
+  margin:10px 0;transition:border-color .3s;
+}
+.tp-sim.active{
+  border-color:color-mix(in srgb,var(--cyan) 45%,transparent);
+  box-shadow:0 0 18px color-mix(in srgb,var(--cyan) 10%,transparent);
+}
+.tp-cur{
+  width:18px;height:18px;border-radius:50%;
+  background:color-mix(in srgb,var(--cyan) 70%,transparent);
+  box-shadow:0 0 10px var(--cyan);
+  position:absolute;transform:translate(-50%,-50%);pointer-events:none;
+  transition:opacity .2s;opacity:0;
+}
+.tp-trail{
+  width:7px;height:7px;border-radius:50%;
+  background:color-mix(in srgb,var(--cyan) 30%,transparent);
+  position:absolute;transform:translate(-50%,-50%);pointer-events:none;
+}
+.tp-sim-hint{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--t3);text-align:center;padding:16px;pointer-events:none;
+}
+
+/* Gesture animations */
+@keyframes sc-anim{0%{transform:translateY(0)}50%{transform:translateY(-25px)}100%{transform:translateY(0)}}
+@keyframes su-anim{0%{opacity:0;transform:translateY(15px)}50%{opacity:1;transform:translateY(-25px)}100%{opacity:0;transform:translateY(-50px)}}
+@keyframes sl-anim{0%{opacity:0;transform:translateX(-25px)}50%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(25px)}}
+@keyframes pin-anim{0%{transform:scale(1)}50%{transform:scale(.6)}100%{transform:scale(1)}}
+@keyframes zm-anim{0%{transform:scale(.7)}50%{transform:scale(1.25)}100%{transform:scale(.7)}}
+@keyframes tp-anim{0%{transform:scale(1)}40%{transform:scale(.82)}100%{transform:scale(1)}}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+.ss{
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);
+  padding:16px;margin-bottom:12px;
+}
+.ss-title{font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:13px}
+.set-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 0;border-bottom:1px solid var(--gb);
+}
+.set-row:last-child{border-bottom:none}
+.set-lbl{font-size:14px;font-weight:600;color:var(--t1)}
+.set-sub{font-size:11px;color:var(--t3);margin-top:1px}
+
+/* DM toggle */
+.dm-wrap{cursor:pointer}
+.dm-track{
+  width:52px;height:28px;border-radius:14px;position:relative;
+  background:var(--g2);border:1px solid var(--gc);
+  display:flex;align-items:center;padding:0 5px;
+  justify-content:space-between;transition:background .3s;
+}
+.dm-track.on{background:color-mix(in srgb,var(--amber) 15%,transparent);
+  border-color:color-mix(in srgb,var(--amber) 30%,transparent)}
+.dm-ic{font-size:12px;z-index:1}
+.dm-ball{
+  width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  position:absolute;left:4px;transition:left .25s;
+  box-shadow:0 0 8px color-mix(in srgb,var(--ac1) 50%,transparent);
+}
+.dm-track.on .dm-ball{left:28px;background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  box-shadow:0 0 8px rgba(251,191,36,.5)}
+
+/* Theme grid */
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:0}
+.tsw{
+  border-radius:var(--r1);border:2px solid var(--gb);cursor:pointer;
+  padding:8px 5px 6px;text-align:center;background:var(--g1);
+  transition:all .2s;
+}
+.tsw:hover{border-color:var(--sw-c,var(--ac1));transform:translateY(-2px)}
+.tsw.active{border-color:var(--sw-c,var(--ac1));
+  box-shadow:0 0 14px color-mix(in srgb,var(--sw-c,var(--ac1)) 35%,transparent)}
+.tsw:active{transform:scale(.96)}
+.sw-prev{
+  width:100%;height:26px;border-radius:7px;margin-bottom:5px;
+  background:linear-gradient(135deg,var(--sw-c),var(--sw-c2));
+}
+.sw-name{font-size:9px;font-weight:700;color:var(--t3)}
+.tsw.active .sw-name{color:var(--sw-c)}
+
+/* Color picker */
+.color-picker-wrap{margin-top:12px}
+.cp-label{font-size:11px;font-weight:700;color:var(--t3);margin-bottom:8px}
+.cp-row{display:flex;align-items:center;gap:10px}
+.cp-input{
+  width:44px;height:44px;border-radius:11px;border:2px solid var(--gc);
+  cursor:pointer;padding:2px;background:transparent;
+}
+.cp-hex{
+  flex:1;padding:9px 12px;border-radius:var(--r1);
+  border:1px solid var(--gb);background:var(--g1);
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  color:var(--t1);outline:none;
+}
+.cp-hex:focus{border-color:var(--ac1)}
+.cp-apply{
+  padding:9px 14px;border-radius:var(--r1);border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--ac1),var(--ac2));
+  color:#fff;font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:700;
+}
+.cp-apply:active{transform:scale(.96)}
+
+/* Slider rows */
+.sl-row{margin-bottom:12px}
+.sl-meta{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--t3);margin-bottom:5px}
+input[type=range]{width:100%;accent-color:var(--ac1);cursor:pointer;height:4px}
+
+/* Name input */
+.name-in{
+  flex:1;padding:9px 12px;border-radius:var(--r1);
+  border:1px solid var(--gb);background:var(--g1);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:13px;color:var(--t1);outline:none;
+}
+.name-in:focus{border-color:color-mix(in srgb,var(--ac1) 45%,transparent)}
+
+.btn-danger{
+  padding:9px 18px;border-radius:16px;border:none;cursor:pointer;
+  background:color-mix(in srgb,var(--red) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--red) 28%,transparent);
+  color:#f87171;font-family:'Be Vietnam Pro',sans-serif;
+  font-size:12px;font-weight:700;transition:all .2s;
+}
+.btn-danger:hover{background:color-mix(in srgb,var(--red) 20%,transparent)}
+.btn-danger:active{transform:scale(.97)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ac1) 30%,transparent);border-radius:2px}
+
+/* ============================================================
+   LANDSCAPE / DESKTOP LAYOUT
+   ============================================================ */
+
+/* ── Tablet landscape & Desktop (≥768px width) ── */
+/* ============================================================
+   DESKTOP / LANDSCAPE — RESPONSIVE LAYOUT v2
+   KHÔNG dùng grid trên .app để tránh hiện nhiều screen cùng lúc
+   ============================================================ */
+
+/* ── Tablet & Desktop (≥ 768px) ── */
+@media (min-width: 768px) {
+  html, body { height:100%; overflow:hidden; }
+
+  .app { max-width:100%; padding-bottom:0; }
+
+  /* Topbar fixed full width */
+  .topbar {
+    position:fixed;
+    top:0; left:0; right:0;
+    padding:10px 24px;
+    z-index:400;
+  }
+
+  /* Sidebar thay thế bottom nav */
+  .bnav {
+    position:fixed;
+    left:0; top:56px; bottom:0;
+    width:200px;
+    border-radius:0;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:stretch;
+    gap:3px;
+    padding:16px 10px;
+    border-right:1px solid var(--gc);
+    border-top:none;
+    border-bottom:none;
+    transform:none;
+    box-shadow:4px 0 24px rgba(0,0,0,0.12);
+    overflow-y:auto;
+    background:rgba(8,12,20,0.88);
+  }
+  body.light .bnav { background:rgba(238,242,255,0.95); box-shadow:4px 0 24px rgba(0,0,0,0.05); }
+
+  /* Nav items — hàng ngang trong sidebar */
+  .nb {
+    width:100%;
+    flex-direction:row;
+    justify-content:flex-start;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:600;
+    min-width:0;
+  }
+  .nb svg { width:19px;height:19px;flex-shrink:0; }
+  .nb span { display:block; white-space:nowrap; }
+  .nb::after { display:none; }
+  .nb.active {
+    background:color-mix(in srgb,var(--ac1) 12%,transparent);
+    border:1px solid color-mix(in srgb,var(--ac1) 22%,transparent);
+    color:var(--ac1);
+  }
+  .nb.active svg { color:var(--ac1); }
+
+  /* Screens — margin trái = sidebar width, top = topbar height */
+  .screen {
+    margin-left:200px;
+    margin-top:56px;
+    padding:0 32px 32px;
+    height:calc(100vh - 56px);
+    overflow-y:auto;
+    overflow-x:hidden;
+  }
+  /* Đảm bảo chỉ 1 screen hiển thị */
+  .screen { display:none !important; }
+  .screen.active { display:block !important; }
+  #screen-ai.active { display:flex !important; flex-direction:column; }
+
+  .ph { padding-top:22px; }
+
+  /* Dashboard: module grid 4 cột */
+  .mgrid { grid-template-columns:repeat(4,1fr); }
+  .mcard.wide { grid-column:span 2; }
+  .mcard { min-height:96px; }
+
+  /* AI Chat fill height */
+  #screen-ai {
+    height:calc(100vh - 56px);
+  }
+  #screen-ai .ph { flex-shrink:0; padding-bottom:4px; }
+  #screen-ai .quick-row { flex-shrink:0; }
+  #screen-ai .chatbox {
+    flex:1;
+    height:auto;
+    min-height:200px;
+    max-height:calc(100vh - 290px);
+  }
+  #screen-ai .chat-bar { flex-shrink:0; padding-bottom:12px; }
+
+  /* Checklist 2 cột */
+  #cl-items {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 16px;
+    align-items:start;
+  }
+
+  /* Trackpad 2 cột */
+  #tp-list {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  #tp-list .tp-card { margin-bottom:0; }
+
+  /* Trainer centered */
+  .tr-hero,.tr-card,.tr-opts,#tr-result { max-width:600px; }
+
+  /* Troubleshoot max width */
+  #ts-box { max-width:620px; }
+
+  /* Settings max width */
+  #screen-settings > .ss,
+  #screen-settings > div:not(.ph) { max-width:660px; }
+}
+
+/* ── Phone xoay ngang (height < 500px) ── */
+@media (max-height: 500px) and (orientation: landscape) {
+  html, body { height:100%; overflow:hidden; }
+
+  .topbar { position:fixed;top:0;left:0;right:0;padding:6px 14px;z-index:400; }
+
+  .bnav {
+    position:fixed;
+    left:0; top:46px; bottom:0;
+    width:155px;
+    border-radius:0;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:stretch;
+    gap:2px;
+    padding:10px 7px;
+    border-right:1px solid var(--gc);
+    border-bottom:none;
+    transform:none;
+    box-shadow:none;
+    background:rgba(8,12,20,0.94);
+    backdrop-filter:blur(20px);
+  }
+  body.light .bnav { background:rgba(238,242,255,0.96); }
+
+  .nb {
+    flex-direction:row;
+    justify-content:flex-start;
+    gap:8px;
+    padding:7px 9px;
+    border-radius:10px;
+    font-size:11px;
+    font-weight:600;
+    width:100%;
+    min-width:0;
+  }
+  .nb svg { width:16px;height:16px;flex-shrink:0; }
+  .nb span { display:block;white-space:nowrap; }
+  .nb::after { display:none; }
+  .nb.active { background:color-mix(in srgb,var(--ac1) 12%,transparent);color:var(--ac1); }
+
+  .app { max-width:100%;padding-bottom:0; }
+
+  .screen { display:none !important; }
+  .screen.active { display:block !important; }
+  #screen-ai.active { display:flex !important; flex-direction:column; }
+
+  .screen {
+    margin-left:155px;
+    margin-top:46px;
+    padding:0 12px 12px;
+    height:calc(100vh - 46px);
+    overflow-y:auto;
+  }
+
+  /* Compact hero */
+  .hero { padding:10px 12px;margin:7px 0; }
+  .hero-name { font-size:15px; }
+  .greeting-label { font-size:10px; }
+  .circ-wrap { width:54px;height:54px; }
+  .circ-svg { width:54px;height:54px; }
+  .lbar-wrap { margin-top:8px; }
+
+  /* Compact stats */
+  .stat-row { gap:7px; }
+  .stat-card { padding:10px 7px; }
+  .stat-ic { width:28px;height:28px;border-radius:8px;margin-bottom:5px; }
+
+  /* Compact modules */
+  .mgrid { grid-template-columns:repeat(4,1fr);gap:7px; }
+  .mcard { min-height:74px;padding:9px 8px; }
+  .mc-ico { width:30px;height:30px;border-radius:9px;margin-bottom:5px; }
+  .mc-ico svg { width:15px;height:15px; }
+  .mc-title { font-size:10px; }
+  .mc-sub { font-size:9px; }
+  .mcard.wide { min-height:46px;padding:8px 10px;gap:9px; }
+
+  /* AI chat */
+  #screen-ai { height:calc(100vh - 46px); }
+  #screen-ai .chatbox { flex:1;height:auto;max-height:calc(100vh - 220px); }
+  .ph { padding-top:8px; }
+  .ph-title { font-size:17px; }
+}
+
+/* ── Wide desktop (≥ 1200px) ── */
+@media (min-width: 1200px) {
+  .bnav { width:220px; }
+  .screen { margin-left:220px; }
+  #tp-list { grid-template-columns:repeat(3,1fr); }
+  #screen-ai .chatbox { max-height:calc(100vh - 270px); }
+  .tr-hero,.tr-card,.tr-opts,#tr-result { max-width:680px; }
+}
+
+/* ── Polish improvements v7 ── */
+
+/* Smooth transitions on theme change */
+body, .topbar, .bnav, .gc, .ss, .hero, .mcard, .stat-card, .tip-card, .res-card, .acc-item, .cl-item, .tp-card, .ts-card, .cmp-card, .feat-card, .tr-card, .chatbox, .bbl {
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Better scroll on knowledge/search results */
+#kb-box, #search-res, #cmp-box { 
+  padding-bottom: 8px;
+}
+
+/* Fix search icon alignment */
+.s-ico { display: flex; align-items: center; }
+
+/* Better empty state */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 48px 20px; text-align: center;
+  color: var(--t3);
+}
+.empty-state svg { opacity: 0.3; margin-bottom: 12px; }
+.empty-state p { font-size: 13px; line-height: 1.5; }
+
+/* XP badge pulse animation on gain */
+@keyframes xp-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+.xp-badge.pulse { animation: xp-pulse 0.4s ease; }
+
+/* Improved modal-like trackpad detail */
+#screen-trackpad-detail .tp-hero { margin-top: 0; }
+
+/* Better filter row wrap */
+.filter-row { flex-wrap: wrap; gap: 6px; }
+
+/* Improved KB tab styling */
+.kb-tabs { gap: 6px; padding-bottom: 2px; margin-bottom: 14px; }
+
+/* Character display for settings */
+.set-row { gap: 12px; }
+
+/* Fix name input on small screens */
+.name-in { min-width: 0; }
+
+/* Level badge glow */
+.hero-level {
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* Smooth nav active indicator */
+.nb { position: relative; overflow: hidden; }
+.nb.active::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--ac1), var(--ac3));
+}
+
+/* Better button hover states */
+.btn-p { position: relative; overflow: hidden; }
+.btn-p::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,0); transition: background 0.2s;
+}
+.btn-p:hover::after { background: rgba(255,255,255,0.08); }
+
+/* Improved checklist done state */
+.cl-item.done .cl-head { opacity: 0.75; }
+.cl-item.done:hover .cl-head { opacity: 1; }
+
+/* Badges tooltip on hover */
+.badge-ic { position: relative; }
+.badge-ic:hover::after {
+  content: attr(title); position: absolute; bottom: 110%; left: 50%;
+  transform: translateX(-50%); white-space: nowrap;
+  background: var(--g2); border: 1px solid var(--gc); border-radius: 8px;
+  font-size: 10px; font-weight: 600; color: var(--t2); padding: 4px 8px;
+  pointer-events: none; z-index: 100;
+}
+
+/* Onboarding progress ring glow */
+.circ-fill { filter: drop-shadow(0 0 4px var(--ac1)); }
+
+/* Trackpad sim cursor glow */
+.tp-cur { transition: left 0.05s, top 0.05s, opacity 0.2s; }
+
+/* Fix module card icon alignment on wide */
+.mcard.wide .mc-ico { margin-bottom: 0 !important; }
+
+/* Settings color preview gradient text label */
+.cp-label { display: flex; align-items: center; gap: 6px; }
+.cp-label::before {
+  content: ''; display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--ac1);
+}
+
+/* Smoother accordion */
+.acc-body { transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s ease; }
+.cl-steps { transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); }
+
+/* Search result type badge colors */
+.res-type { 
+  display: inline-block; padding: 2px 8px; border-radius: 8px;
+  background: color-mix(in srgb, var(--ac1) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ac1) 25%, transparent);
+  font-size: 10px; font-weight: 800; color: var(--ac1); margin-bottom: 5px;
+}
+
+/* Better toast positioning */
+.toast { letter-spacing: 0.02em; }
+
+/* Trainer result centered */
+#tr-result { text-align: center; }
+
+/* Footer breathing space */
+.app { padding-bottom: 100px; }
+
+/* Accessibility: focus outlines */
+button:focus-visible, input:focus-visible, .nb:focus-visible {
+  outline: 2px solid var(--ac1); outline-offset: 2px;
+}
+
+/* Light mode refinements */
+body.light .hero { background: linear-gradient(135deg, color-mix(in srgb, var(--ac1) 8%, white), color-mix(in srgb, var(--ac3) 6%, white)); }
+body.light .bbl.ai { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.08); }
+body.light .key { background: rgba(0,0,0,0.05); }
+body.light .warn-box { background: rgba(245,158,11,0.08); }
+body.light .cmp-box { background: rgba(0,0,0,0.03); }
+body.light .cmp-box.win { background: color-mix(in srgb, var(--ac1) 5%, white); }
+body.light .dots span { background: var(--ac1); }
+body.light .orb { opacity: 0.6; }
+
+</style>
+</head>
+<body>
+<div class="orb ob1"></div>
+<div class="orb ob2"></div>
+<div class="orb ob3"></div>
+<div class="toast" id="toast"></div>
+
+<!-- SVG gradient defs -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+  <defs>
+    <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" id="cg-s1" stop-color="#FF3CAC"/>
+      <stop offset="100%" id="cg-s2" stop-color="#2B86C5"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="logo" onclick="Nav.go('dashboard')">
+      <span class="logo-text">MacBridge AI</span>
+    </div>
+    <div class="topbar-right">
+      <!-- XP badge -->
+      <div class="xp-badge" onclick="Nav.go('dashboard')" title="Điểm kinh nghiệm">
+        <svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 15.5,9 22,10 17,15 18.5,22 12,18.5 5.5,22 7,15 2,10 8.5,9" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="1.8" fill="currentColor" opacity="0.6"/></svg>
+        <span id="xp-val">0</span> XP
+      </div>
+      <!-- Dark/Light toggle -->
+      <button class="dm-btn" onclick="Settings.toggleDark()" id="dm-topbtn" title="Chế độ sáng/tối">
+        <svg id="dm-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <!-- Settings shortcut -->
+      <button class="top-settings-btn" onclick="Nav.go('settings')" title="Cài đặt">
+        <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="screen active" id="screen-dashboard">
+    <div style="padding-top:12px">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-row">
+          <div class="hero-left">
+            <div class="greeting-label" id="greeting-lbl">Chào mừng</div>
+            <div class="hero-name" id="hero-name">Người dùng mới</div>
+            <div class="hero-level" id="level-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              Người mới bắt đầu
+            </div>
+          </div>
+          <!-- Circular progress -->
+          <div class="circ-wrap" onclick="Nav.go('settings')">
+            <svg class="circ-svg" width="76" height="76" viewBox="0 0 76 76">
+              <circle class="circ-track" cx="38" cy="38" r="30"/>
+              <circle class="circ-fill" cx="38" cy="38" r="30"
+                stroke="url(#cg)" stroke-dasharray="188.5" stroke-dashoffset="188.5" id="circ-arc"/>
+            </svg>
+            <div class="circ-inner">
+              <div class="circ-xp" id="circ-num">0</div>
+              <div class="circ-lbl">XP</div>
+            </div>
+          </div>
+        </div>
+        <div class="lbar-wrap">
+          <div class="lbar-meta">
+            <span id="lbar-left">Cấp 1 — Người mới</span>
+            <span id="lbar-right">0%</span>
+          </div>
+          <div class="lbar-bg"><div class="lbar-fill" id="lbar" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-ic" style="background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(245,158,11,.06))">
+            <svg viewBox="0 0 24 24" fill="none" style="color:#f59e0b"><rect x="3" y="7" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="16" y="7" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 9.5 L16 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 1.5"/><rect x="8" y="14" width="8" height="4" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
+          </div>
+          <div class="stat-val" id="stat-sc">0/15</div>
+          <div class="stat-lbl">Phím tắt</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:linear-gradient(135deg,rgba(16,185,129,.18),rgba(16,185,129,.06))">
+            <svg viewBox="0 0 24 24" fill="none" style="color:#10b981"><rect x="3" y="5" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.7"/><polyline points="4.5,7.5 6,9 8,6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="7.5" x2="21" y2="7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="13" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.7"/><line x1="11" y1="15.5" x2="21" y2="15.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="stat-val" id="stat-cl">0/10</div>
+          <div class="stat-lbl">Thiết lập</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(6,182,212,.06))">
+            <svg viewBox="0 0 24 24" fill="none" style="color:#06b6d4"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><line x1="3" y1="14" x2="21" y2="14" stroke="currentColor" stroke-width="1.2" opacity="0.5"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M9.2 8.5 Q12 6 14.8 8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.5"/></svg>
+          </div>
+          <div class="stat-val" id="stat-tp">0/8</div>
+          <div class="stat-lbl">Trackpad</div>
+        </div>
+      </div>
+
+      <!-- Module grid -->
+      <div class="mgrid">
+        <div class="mcard" onclick="Nav.go('ai')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#FF3CAC,#784BA0);box-shadow:0 0 16px rgba(255,60,172,0.35)">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="2.5" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="7" x2="10" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="7" x2="14" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="10" y1="20" x2="10" y2="17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="20" x2="14" y2="17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="10" x2="4" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="14" x2="4" y2="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="20" y1="10" x2="17" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="20" y1="14" x2="17" y2="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+          </div>
+          <div><div class="mc-title">AI Tư vấn</div><div class="mc-sub">Hỏi đáp thông minh</div></div>
+        </div>
+        <div class="mcard" onclick="Nav.go('search')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);box-shadow:0 0 16px rgba(6,182,212,0.35)">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.8"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="3" stroke="currentColor" stroke-width="1" opacity="0.35"/></svg>
+          </div>
+          <div><div class="mc-title">Tìm kiếm</div><div class="mc-sub">Tôi muốn làm...</div></div>
+        </div>
+        <div class="mcard" onclick="Nav.go('trackpad')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#06b6d4,#B4F000);box-shadow:0 0 16px rgba(6,182,212,0.35)">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><line x1="3" y1="14" x2="21" y2="14" stroke="currentColor" stroke-width="1.2" opacity="0.6"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M9.2 8.5 Q12 6 14.8 8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.5"/></svg>
+          </div>
+          <div><div class="mc-title">Trackpad Trainer</div><div class="mc-sub">8 bài tập cử chỉ</div></div>
+        </div>
+        <div class="mcard" onclick="Nav.go('trainer')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#f59e0b,#f97316);box-shadow:0 0 16px rgba(245,158,11,0.35)">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="13" rx="2.5" stroke="currentColor" stroke-width="1.8"/><rect x="5" y="10" width="3" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="10.5" y="10" width="3" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="16" y="10" width="3" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="7" y="15" width="10" height="2.5" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M12 2 L12.8 4.5 L14.5 3.5 L13.5 5.5 L15 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div><div class="mc-title">Luyện phím tắt</div><div class="mc-sub">Trắc nghiệm nhanh</div></div>
+        </div>
+        <div class="mcard" onclick="Nav.go('troubleshoot')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#ef4444,#f97316);box-shadow:0 0 16px rgba(239,68,68,0.35)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14.7 3.1a5.5 5.5 0 0 0-5.4 6.5L3.5 15.4a2.2 2.2 0 1 0 3.1 3.1L12.4 12.7a5.5 5.5 0 0 0 6.5-5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="5.5" cy="17.5" r="1.2" fill="currentColor"/></svg>
+          </div>
+          <div><div class="mc-title">Sửa lỗi</div><div class="mc-sub">Chẩn đoán từng bước</div></div>
+        </div>
+        <div class="mcard" onclick="Nav.go('compare')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#a855f7,#6366f1);box-shadow:0 0 16px rgba(168,85,247,0.35)">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="8" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="5" width="8" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><line x1="10.5" y1="10.5" x2="13.5" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10.5" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10.5" y1="13.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="9" x2="7" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="5" y1="12" x2="7" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="17" y1="9" x2="19" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="17" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div><div class="mc-title">So sánh</div><div class="mc-sub">Mac vs Windows</div></div>
+        </div>
+        <div class="mcard wide" onclick="Nav.go('checklist')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#10b981,#06b6d4);box-shadow:0 0 16px rgba(16,185,129,0.35);margin-bottom:0">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.7"/><polyline points="4.5,7.5 6,9 8,6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="7.5" x2="21" y2="7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="13" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.7"/><line x1="11" y1="15.5" x2="21" y2="15.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="11" y1="19" x2="17" y2="19" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/></svg>
+          </div>
+          <div><div class="mc-title">Danh sách thiết lập ngày đầu</div><div class="mc-sub">10 bước cài đặt Mac từ đầu</div></div>
+        </div>
+        <div class="mcard wide" onclick="Nav.go('knowledge')">
+          <div class="mc-ico" style="background:linear-gradient(135deg,#f59e0b,#FF3CAC);box-shadow:0 0 16px rgba(245,158,11,0.3);margin-bottom:0">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 4 L4 20 Q4 21 5 21 L18 21 Q20 21 20 19 L20 6 Q20 4 18 4 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><line x1="4" y1="19" x2="20" y2="19" stroke="currentColor" stroke-width="1.2"/><line x1="8" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="9" r="1" fill="currentColor"/><circle cx="8" cy="13" r="1" fill="currentColor"/></svg>
+          </div>
+          <div><div class="mc-title">Kho kiến thức</div><div class="mc-sub">30 mẹo · 20 lỗi · 10 đặc sản Mac</div></div>
+        </div>
+      </div>
+
+      <div class="slabel">Gợi ý cho bạn</div>
+      <div class="sugg-row" id="dash-sugg"></div>
+      <div class="slabel">Huy hiệu</div>
+      <div class="badge-row" id="dash-badges"></div>
+    </div>
+  </div>
+
+  <!-- AI CHAT -->
+  <div class="screen" id="screen-ai">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#FF3CAC,#784BA0)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="2.5" stroke="white" stroke-width="1.8"/><line x1="10" y1="7" x2="10" y2="4" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="7" x2="14" y2="4" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="10" y1="20" x2="10" y2="17" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="20" x2="14" y2="17" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="10" x2="4" y2="10" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="14" x2="4" y2="14" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="20" y1="10" x2="17" y2="10" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="20" y1="14" x2="17" y2="14" stroke="white" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="white"/></svg>
+      </div>
+      <div><div class="ph-title">AI Tư vấn</div><div class="ph-sub">Phân loại ý định · Trả lời có cấu trúc</div></div>
+    </div>
+    <div class="quick-row" id="ai-quick"></div>
+    <div class="chatbox" id="chatbox"></div>
+    <div class="chat-bar">
+      <input class="chat-in" id="chat-in" placeholder="Hỏi về macOS..." onkeydown="if(event.key==='Enter')AI.send()">
+      <button class="send-btn" onclick="AI.send()">
+        <svg viewBox="0 0 24 24" fill="none"><line x1="5" y1="19" x2="19" y2="5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polyline points="9,5 19,5 19,15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="screen" id="screen-search">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="white" stroke-width="1.8"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="ph-title">Tìm kiếm</div><div class="ph-sub">Tôi muốn làm...</div></div>
+    </div>
+    <div class="search-wrap">
+      <span class="s-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.8"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <input class="search-in" id="search-in" placeholder="Đổi tên tệp, chụp màn hình, pin yếu..." oninput="Search.run(this.value)">
+      <span class="s-clr" onclick="document.getElementById('search-in').value='';Search.run('')"><svg viewBox="0 0 24 24" fill="none"><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+    </div>
+    <div id="search-res"></div>
+  </div>
+
+  <!-- TRACKPAD -->
+  <div class="screen" id="screen-trackpad">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#06b6d4,#B4F000)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="white" stroke-width="1.8"/><line x1="3" y1="14" x2="21" y2="14" stroke="white" stroke-width="1.2" opacity="0.7"/><circle cx="12" cy="10" r="2.5" stroke="white" stroke-width="1.6"/></svg>
+      </div>
+      <div><div class="ph-title">Trackpad Trainer</div><div class="ph-sub">8 bài tập cử chỉ macOS</div></div>
+    </div>
+    <div class="tp-hero">
+      <div class="tp-htitle">Làm chủ Trackpad Mac</div>
+      <div class="tp-hsub">Trackpad Mac có hơn 15 cử chỉ — học từng bước!</div>
+    </div>
+    <div class="tp-prog-row">
+      <div class="tp-pc"><div class="tp-pv" id="tp-done">0/8</div><div class="tp-pl">Đã học</div></div>
+      <div class="tp-pc"><div class="tp-pv" id="tp-xp">0</div><div class="tp-pl">XP kiếm được</div></div>
+    </div>
+    <div id="tp-list"></div>
+  </div>
+
+  <!-- TRACKPAD DETAIL -->
+  <div class="screen" id="screen-trackpad-detail">
+    <div style="padding:12px 2px 0;display:flex;gap:9px;align-items:center;margin-bottom:4px">
+      <button class="btn-g" onclick="Nav.go('trackpad')" style="padding:7px 14px;font-size:12px">← Quay lại</button>
+      <span style="font-size:13px;font-weight:700;color:var(--t2)" id="tp-detail-crumb">Trackpad</span>
+    </div>
+    <div id="tp-detail"></div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="screen" id="screen-checklist">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#10b981,#06b6d4)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="5" height="5" rx="1.5" stroke="white" stroke-width="1.7"/><polyline points="4.5,7.5 6,9 8,6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="7.5" x2="21" y2="7.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="13" width="5" height="5" rx="1.5" stroke="white" stroke-width="1.7"/><line x1="11" y1="15.5" x2="21" y2="15.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="ph-title">Thiết lập ngày đầu</div><div class="ph-sub">10 bước cài đặt Mac của bạn</div></div>
+    </div>
+    <div class="prog-hero">
+      <div class="prog-lbl">Tiến độ thiết lập</div>
+      <div class="prog-pct" id="cl-pct">0% hoàn thành</div>
+      <div class="pbg"><div class="pfill" id="cl-bar" style="width:0%"></div></div>
+    </div>
+    <div id="cl-items"></div>
+  </div>
+
+  <!-- TROUBLESHOOT -->
+  <div class="screen" id="screen-troubleshoot">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#ef4444,#f97316)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14.7 3.1a5.5 5.5 0 0 0-5.4 6.5L3.5 15.4a2.2 2.2 0 1 0 3.1 3.1L12.4 12.7a5.5 5.5 0 0 0 6.5-5.4" stroke="white" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" stroke="white" stroke-width="1.5"/><circle cx="5.5" cy="17.5" r="1.2" fill="white"/></svg>
+      </div>
+      <div><div class="ph-title">Sửa lỗi Mac</div><div class="ph-sub">Chẩn đoán từng bước</div></div>
+    </div>
+    <div id="ts-box"></div>
+  </div>
+
+  <!-- KNOWLEDGE -->
+  <div class="screen" id="screen-knowledge">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#f59e0b,#FF3CAC)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4 L4 20 Q4 21 5 21 L18 21 Q20 21 20 19 L20 6 Q20 4 18 4 Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><line x1="8" y1="9" x2="16" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="13" x2="14" y2="13" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="ph-title">Kho kiến thức</div><div class="ph-sub">30 mẹo · 20 lỗi · 10 đặc sản · Tối ưu</div></div>
+    </div>
+    <div class="kb-tabs">
+      <div class="kbt active" onclick="KBui.tab('tips',this)"><span class="kbt-dot" style="background:#f59e0b"></span>30 Mẹo</div>
+      <div class="kbt" onclick="KBui.tab('errors',this)"><span class="kbt-dot" style="background:#ef4444"></span>20 Lỗi</div>
+      <div class="kbt" onclick="KBui.tab('features',this)"><span class="kbt-dot" style="background:#a855f7"></span>Đặc sản</div>
+      <div class="kbt" onclick="KBui.tab('optimization',this)"><span class="kbt-dot" style="background:#B4F000"></span>Tối ưu</div>
+    </div>
+    <div id="kb-box"></div>
+  </div>
+
+  <!-- COMPARE -->
+  <div class="screen" id="screen-compare">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#a855f7,#6366f1)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="8" height="14" rx="2" stroke="white" stroke-width="1.8"/><rect x="14" y="5" width="8" height="14" rx="2" stroke="white" stroke-width="1.8"/><line x1="10.5" y1="12" x2="13.5" y2="12" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="ph-title">macOS vs Windows</div><div class="ph-sub">So sánh theo vai trò người dùng</div></div>
+    </div>
+    <div class="persona-row">
+      <div class="pc active" onclick="Cmp.persona('all',this)">Tất cả</div>
+      <div class="pc" onclick="Cmp.persona('student',this)">Sinh viên</div>
+      <div class="pc" onclick="Cmp.persona('developer',this)">Lập trình</div>
+      <div class="pc" onclick="Cmp.persona('designer',this)">Thiết kế</div>
+      <div class="pc" onclick="Cmp.persona('office',this)">Văn phòng</div>
+      <div class="pc" onclick="Cmp.persona('gamer',this)">Game thủ</div>
+    </div>
+    <div id="cmp-box"></div>
+  </div>
+
+  <!-- TRAINER -->
+  <div class="screen" id="screen-trainer">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#f59e0b,#f97316)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="13" rx="2.5" stroke="white" stroke-width="1.8"/><rect x="5" y="10" width="3" height="3" rx="1" stroke="white" stroke-width="1.4"/><rect x="10.5" y="10" width="3" height="3" rx="1" stroke="white" stroke-width="1.4"/><rect x="16" y="10" width="3" height="3" rx="1" stroke="white" stroke-width="1.4"/><rect x="7" y="15" width="10" height="2.5" rx="1" stroke="white" stroke-width="1.4"/></svg>
+      </div>
+      <div><div class="ph-title">Luyện phím tắt</div><div class="ph-sub">Trắc nghiệm 15 phím tắt quan trọng</div></div>
+    </div>
+    <div class="tr-hero">
+      <div><div class="tr-pl">Tiến độ</div><div class="tr-pv" id="tr-prog">0/15</div></div>
+      <div style="text-align:right"><div class="tr-pl">Đúng</div><div class="tr-pv" id="tr-correct">0</div></div>
+    </div>
+    <div class="tr-card" id="tr-q"></div>
+    <div class="tr-opts" id="tr-opts"></div>
+    <div id="tr-result"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="screen" id="screen-settings">
+    <div class="ph">
+      <div class="ph-icon" style="background:linear-gradient(135deg,#784BA0,#6366f1)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.8"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="white" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="ph-title">Cài đặt</div><div class="ph-sub">Cá nhân hóa ứng dụng</div></div>
+    </div>
+    <!-- XP Summary Card in Settings -->
+    <div style="background:linear-gradient(135deg,color-mix(in srgb,var(--ac1) 12%,transparent),color-mix(in srgb,var(--ac3) 8%,transparent));border:1px solid color-mix(in srgb,var(--ac1) 20%,transparent);border-radius:var(--r3);padding:16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Tổng điểm kinh nghiệm</div>
+        <div style="font-size:28px;font-weight:900;background:linear-gradient(135deg,var(--ac1),var(--ac3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="set-xp-num">0</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px" id="set-level-txt">Cấp 1 — Người mới bắt đầu</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:6px">Tiến độ cấp độ</div>
+        <div style="width:90px;height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden"><div id="set-lbar" style="height:100%;border-radius:3px;background:linear-gradient(90deg,var(--ac1),var(--ac3));width:0%;transition:width .6s ease"></div></div>
+        <div style="font-size:10px;color:var(--t3);margin-top:4px" id="set-lbar-pct">0%</div>
+      </div>
+    </div>
+
+    <!-- Tài khoản -->
+    <div class="ss">
+      <div class="ss-title">Tài khoản</div>
+      <div class="set-row">
+        <div><div class="set-lbl">Tên của bạn</div><div class="set-sub">Hiển thị trên màn hình chính</div></div>
+        <div style="display:flex;gap:7px;align-items:center">
+          <input class="name-in" id="s-name" placeholder="Nhập tên..." style="width:110px">
+          <button class="btn-p" onclick="Settings.saveName()" style="padding:9px 14px;font-size:12px">Lưu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Giao diện -->
+    <div class="ss">
+      <div class="ss-title">Giao diện</div>
+      <div class="set-row">
+        <div>
+          <div class="set-lbl">Chế độ hiển thị</div>
+          <div class="set-sub" id="dm-lbl">Đang dùng: Tối</div>
+        </div>
+        <div class="dm-wrap" onclick="Settings.toggleDark()">
+          <div class="dm-track" id="dm-track">
+            <span class="dm-ic">◐</span>
+            <span class="dm-ic">○</span>
+            <div class="dm-ball"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Màu sắc -->
+    <div class="ss">
+      <div class="ss-title">Màu sắc chủ đạo</div>
+      <div class="theme-grid" id="theme-grid">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Bảng chỉnh màu tuỳ chỉnh -->
+      <div style="margin-top:14px;border-top:1px solid var(--gb);padding-top:14px">
+        <div class="ss-title" style="margin-bottom:10px">Tuỳ chỉnh màu</div>
+
+        <div class="sl-row">
+          <div class="sl-meta"><span>Màu chính (Hue)</span><span id="sl-hue-val">330°</span></div>
+          <input type="range" min="0" max="360" value="330" id="sl-hue" oninput="Settings.sliderChange()">
+        </div>
+        <div class="sl-row">
+          <div class="sl-meta"><span>Độ bão hòa</span><span id="sl-sat-val">100%</span></div>
+          <input type="range" min="20" max="100" value="100" id="sl-sat" oninput="Settings.sliderChange()">
+        </div>
+        <div class="sl-row">
+          <div class="sl-meta"><span>Độ sáng</span><span id="sl-bri-val">60%</span></div>
+          <input type="range" min="30" max="80" value="60" id="sl-bri" oninput="Settings.sliderChange()">
+        </div>
+
+        <!-- Color picker -->
+        <div class="cp-row" style="margin-top:10px">
+          <input type="color" class="cp-input" id="cp-color" value="#FF3CAC" oninput="Settings.colorPick(this.value)">
+          <input class="cp-hex" id="cp-hex" value="#FF3CAC" maxlength="7"
+            placeholder="#FF3CAC" oninput="Settings.hexInput(this.value)">
+          <button class="cp-apply" onclick="Settings.applyHex()">Áp dụng</button>
+        </div>
+        <!-- Preview swatch -->
+        <div id="color-preview" style="margin-top:10px;height:32px;border-radius:10px;
+          background:linear-gradient(135deg,var(--ac1),var(--ac3));transition:background .3s;
+          box-shadow:0 0 16px color-mix(in srgb,var(--ac1) 30%,transparent)"></div>
+      </div>
+    </div>
+
+    <!-- Dữ liệu -->
+    <div class="ss">
+      <div class="ss-title">Dữ liệu</div>
+      <div class="set-row">
+        <div><div class="set-lbl">Xoá toàn bộ dữ liệu</div><div class="set-sub">Điểm XP, tiến độ, cài đặt</div></div>
+        <button class="btn-danger" onclick="Settings.reset()">Xoá</button>
+      </div>
+    </div>
+
+    <!-- App Info -->
+    <div style="text-align:center;padding:8px 4px 20px;color:var(--t3)">
+      <div style="font-size:15px;font-weight:900;background:linear-gradient(135deg,var(--ac1),var(--ac3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px">MacBridge AI</div>
+      <div style="font-size:11px;margin-bottom:2px">Phiên bản 7.0 — Hoàn thiện</div>
+      <div style="font-size:10px;opacity:.5">30 mẹo · 16 phím tắt · 21 lỗi · 8 cử chỉ trackpad</div>
+    </div>
+  </div>
+
+</div><!-- end .app -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="nb active" data-s="dashboard" onclick="Nav.go('dashboard')">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+    <span>Trang chủ</span>
+  </button>
+  <button class="nb" data-s="ai" onclick="Nav.go('ai')">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="2.5" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="7" x2="10" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="7" x2="14" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="10" y1="20" x2="10" y2="17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="20" x2="14" y2="17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="10" x2="4" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="14" x2="4" y2="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="20" y1="10" x2="17" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="20" y1="14" x2="17" y2="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+    <span>AI</span>
+  </button>
+  <button class="nb" data-s="trackpad" onclick="Nav.go('trackpad')">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><line x1="3" y1="14" x2="21" y2="14" stroke="currentColor" stroke-width="1.2" opacity="0.5"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M9.2 8.5 Q12 6 14.8 8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.5"/></svg>
+    <span>Trackpad</span>
+  </button>
+  <button class="nb" data-s="knowledge" onclick="Nav.go('knowledge')">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 4 L4 20 Q4 21 5 21 L18 21 Q20 21 20 19 L20 6 Q20 4 18 4 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><line x1="8" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="9" r="1" fill="currentColor"/><circle cx="8" cy="13" r="1" fill="currentColor"/></svg>
+    <span>Kiến thức</span>
+  </button>
+  <button class="nb" data-s="settings" onclick="Nav.go('settings')">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    <span>Cài đặt</span>
+  </button>
+</nav>
+<script>
+// ============================================================
+// MacBridge AI — Knowledge Base Module
+// All structured data for the application
+// ============================================================
+
+const KB = {
+
+  // ─── 30 MẸO SỬ DỤNG MAC ────────────────────────────────────
+  tips: [
+    { id:'t1', title:'Đổi tên file', desc:'Nhấn Enter để đổi tên file (không phải F2 như Windows)', category:'File', windows:'F2', mac:'Enter', level:'beginner' },
+    { id:'t2', title:'Spotlight Search', desc:'Nhấn ⌘+Space để mở Spotlight — tìm file, app, tính toán, từ điển tức thì', category:'Search', windows:'Win+S', mac:'⌘+Space', level:'beginner' },
+    { id:'t3', title:'Chụp màn hình vùng chọn', desc:'⌘+Shift+4 rồi kéo chọn vùng, file lưu ra Desktop', category:'Screenshot', windows:'Win+Shift+S', mac:'⌘+Shift+4', level:'beginner' },
+    { id:'t4', title:'Force Quit ứng dụng', desc:'Khi app bị đơ, nhấn ⌘+Option+Esc → chọn app → Force Quit', category:'Troubleshoot', windows:'Ctrl+Shift+Esc', mac:'⌘+Option+Esc', level:'beginner' },
+    { id:'t5', title:'Preview nhanh file', desc:'Chọn file trong Finder, nhấn Space để xem trước không cần mở app', category:'File', windows:'Không có', mac:'Space (Quick Look)', level:'beginner' },
+    { id:'t6', title:'Mission Control', desc:'F3 hoặc vuốt 3 ngón lên để xem tất cả cửa sổ đang mở', category:'Window', windows:'Win+Tab', mac:'F3 / 3-finger swipe up', level:'beginner' },
+    { id:'t7', title:'Xoá file vĩnh viễn', desc:'⌘+Delete vào Trash, rồi ⌘+Shift+Delete để xoá vĩnh viễn', category:'File', windows:'Del + Shift+Del', mac:'⌘+Delete, ⌘+Shift+Delete', level:'beginner' },
+    { id:'t8', title:'Undo nhiều lần', desc:'Giữ ⌘+Z để undo nhiều bước. Redo bằng ⌘+Shift+Z', category:'Editing', windows:'Ctrl+Z / Ctrl+Y', mac:'⌘+Z / ⌘+Shift+Z', level:'beginner' },
+    { id:'t9', title:'Copy đường dẫn file', desc:'Giữ Option khi right-click file → "Copy [file] as Pathname"', category:'File', windows:'Shift+Right-click → Copy as path', mac:'Option+Right-click → Copy as Pathname', level:'intermediate' },
+    { id:'t10', title:'Chụp cửa sổ cụ thể', desc:'⌘+Shift+4 rồi nhấn Space → click vào cửa sổ muốn chụp', category:'Screenshot', windows:'Alt+PrintScreen', mac:'⌘+Shift+4+Space', level:'intermediate' },
+    { id:'t11', title:'Kéo thả file giữa spaces', desc:'Kéo file, giữ chờ 1 giây trên Dock icon → cửa sổ app mở ra', category:'Window', windows:'Không có', mac:'Drag to Dock icon', level:'intermediate' },
+    { id:'t12', title:'Tìm từ trong tài liệu', desc:'⌘+F để tìm kiếm trong bất kỳ app nào. ⌘+G để tìm tiếp', category:'Search', windows:'Ctrl+F', mac:'⌘+F', level:'beginner' },
+    { id:'t13', title:'Activity Monitor', desc:'Tìm app ngốn RAM/CPU — Spotlight → "Activity Monitor"', category:'Performance', windows:'Task Manager', mac:'Activity Monitor', level:'beginner' },
+    { id:'t14', title:'Emoji picker', desc:'Nhấn Ctrl+⌘+Space để mở bảng emoji ở bất kỳ đâu', category:'Misc', windows:'Win+.', mac:'Ctrl+⌘+Space', level:'beginner' },
+    { id:'t15', title:'Chia đôi màn hình', desc:'Giữ chuột vào nút màu xanh (full screen) → chọn vị trí split', category:'Window', windows:'Win+←/→', mac:'Hold green button', level:'intermediate' },
+    { id:'t16', title:'Bàn phím ảo', desc:'System Settings → Keyboard → Show Keyboard Viewer từ menu bar', category:'Misc', windows:'Không có', mac:'Keyboard Viewer', level:'advanced' },
+    { id:'t17', title:'Hot Corners', desc:'System Settings → Desktop → Hot Corners: di chuột vào góc để kích hoạt tính năng', category:'Productivity', windows:'Không có', mac:'Hot Corners', level:'intermediate' },
+    { id:'t18', title:'Clipboard tích hợp iPhone', desc:'Universal Clipboard: Copy trên iPhone, Paste trên Mac tức thì', category:'Continuity', windows:'Không có', mac:'Universal Clipboard', level:'advanced' },
+    { id:'t19', title:'Đóng cửa sổ vs Thoát app', desc:'⌘+W chỉ đóng cửa sổ, app vẫn chạy. ⌘+Q mới thoát hoàn toàn', category:'Window', windows:'Alt+F4 = đóng+thoát', mac:'⌘+W (đóng) / ⌘+Q (thoát)', level:'beginner' },
+    { id:'t20', title:'Text to Speech', desc:'Chọn text, Edit → Speech → Start Speaking. Hoặc Option+Esc', category:'Accessibility', windows:'Không có (mặc định)', mac:'Option+Esc', level:'advanced' },
+    { id:'t21', title:'Stage Manager', desc:'System Settings → Desktop → Stage Manager: gom cửa sổ theo nhóm', category:'Window', windows:'Không có', mac:'Stage Manager', level:'advanced' },
+    { id:'t22', title:'AirDrop gửi file', desc:'Finder → AirDrop → kéo file vào avatar người nhận. Nhanh hơn USB', category:'Sharing', windows:'Không có', mac:'AirDrop', level:'beginner' },
+    { id:'t23', title:'Tiết kiệm pin', desc:'Menu Apple → System Settings → Battery → bật Low Power Mode', category:'Battery', windows:'Battery saver', mac:'Low Power Mode', level:'beginner' },
+    { id:'t24', title:'Xem thông tin file', desc:'Chọn file, nhấn ⌘+I để xem chi tiết: dung lượng, ngày tạo, permission', category:'File', windows:'Alt+Enter', mac:'⌘+I', level:'beginner' },
+    { id:'t25', title:'Trackpad gestures', desc:'2 ngón cuộn, 3 ngón vuốt ngang đổi space, 4 ngón pinch mở Launchpad', category:'Trackpad', windows:'Không có', mac:'Multi-touch gestures', level:'beginner' },
+    { id:'t26', title:'Finder path bar', desc:'Finder → View → Show Path Bar để thấy đường dẫn folder hiện tại', category:'File', windows:'Address bar luôn hiển thị', mac:'View → Show Path Bar', level:'intermediate' },
+    { id:'t27', title:'Night Shift', desc:'System Settings → Displays → Night Shift: giảm ánh sáng xanh buổi tối', category:'Display', windows:'Night light', mac:'Night Shift', level:'beginner' },
+    { id:'t28', title:'Siri trên Mac', desc:'⌘+Space giữ lâu hoặc "Hey Siri" để gọi trợ lý', category:'AI', windows:'Win+H / Cortana', mac:'⌘+Space (hold) / Hey Siri', level:'beginner' },
+    { id:'t29', title:'Lookup từ điển', desc:'3 ngón tap lên từ bất kỳ = tra cứu định nghĩa tức thì', category:'Misc', windows:'Không có', mac:'3-finger tap', level:'intermediate' },
+    { id:'t30', title:'Remote Login SSH', desc:'System Settings → General → Sharing → Remote Login để bật SSH', category:'Developer', windows:'PowerShell / PuTTY', mac:'Built-in SSH', level:'advanced' },
+  ],
+
+  // ─── 20 LỖI PHỔ BIẾN ─────────────────────────────────────
+  errors: [
+    {
+      id:'e1', symptom:'Mac chạy chậm', icon:'🐢',
+      causes:['Quá nhiều app chạy nền', 'RAM đầy', 'Ổ đĩa gần đầy', 'Cần restart'],
+      fixes:[
+        'Mở Activity Monitor → xem app nào ngốn CPU/RAM nhiều nhất',
+        'Quit những app không dùng bằng ⌘+Q',
+        'Restart Mac (Apple menu → Restart)',
+        'Xoá file rác trong Trash',
+        'System Settings → General → Login Items: tắt app khởi động cùng Mac'
+      ],
+      warning:'Không tắt process System trong Activity Monitor',
+      category:'performance'
+    },
+    {
+      id:'e2', symptom:'Pin tụt nhanh', icon:'🔋',
+      causes:['App ngốn pin chạy nền', 'Màn hình sáng quá', 'Bluetooth/Wi-Fi luôn bật', 'Đang charge sai cách'],
+      fixes:[
+        'Xem biểu tượng pin → click xem app nào "Using Significant Energy"',
+        'Giảm độ sáng màn hình',
+        'Bật Low Power Mode (System Settings → Battery)',
+        'Tắt Background App Refresh cho app không cần thiết',
+        'Charge bằng adapter chính hãng Apple'
+      ],
+      warning:'Không để pin xuống 0% thường xuyên — làm hỏng chu kỳ sạc',
+      category:'battery'
+    },
+    {
+      id:'e3', symptom:'Không cài được app', icon:'🚫',
+      causes:['"Unidentified developer" warning', 'File .dmg bị lỗi', 'macOS version không tương thích'],
+      fixes:[
+        'System Settings → Privacy & Security → cuộn xuống → nhấn "Open Anyway"',
+        'Right-click vào app → Open → Open để bypass Gatekeeper',
+        'Tải lại file .dmg từ nguồn chính thức',
+        'Kiểm tra yêu cầu macOS của app (thường ghi trên website)'
+      ],
+      warning:'Chỉ bypass Gatekeeper với app từ nguồn đáng tin cậy',
+      category:'app'
+    },
+    {
+      id:'e4', symptom:'Máy nóng bất thường', icon:'🔥',
+      causes:['App đang render nặng', 'Fan bị bụi (Mac cũ)', 'Quá trình nền bất thường', 'Môi trường nóng'],
+      fixes:[
+        'Mở Activity Monitor → CPU tab → xem process nào >80%',
+        'Thoát browser tab nặng (nhiều video, WebGL)',
+        'Thử restart Mac',
+        'Đặt Mac trên bề mặt cứng phẳng, không che thông gió',
+        'Chờ Mac tự nguội, không tiếp tục dùng nặng'
+      ],
+      warning:'Nếu Mac thường xuyên nóng >80°C khi không làm gì — mang đi kiểm tra',
+      category:'hardware'
+    },
+    {
+      id:'e5', symptom:'Wi-Fi yếu / mất kết nối', icon:'📶',
+      causes:['DNS bị lỗi', 'Cấu hình Wi-Fi cũ', 'Driver Wi-Fi cần reset'],
+      fixes:[
+        'Tắt Wi-Fi rồi bật lại',
+        'System Settings → Wi-Fi → forget network → kết nối lại',
+        'Thay DNS: 8.8.8.8 (Google) hoặc 1.1.1.1 (Cloudflare)',
+        'Terminal: sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder',
+        'Restart router'
+      ],
+      warning:'Lệnh Terminal trên an toàn — chỉ flush DNS cache',
+      category:'network'
+    },
+    {
+      id:'e6', symptom:'App bị đơ (spinning wheel)', icon:'🌀',
+      causes:['App không phản hồi', 'Deadlock trong app', 'Thiếu bộ nhớ'],
+      fixes:[
+        'Chờ 30 giây — đôi khi app tự phục hồi',
+        'Right-click Dock icon → "Force Quit"',
+        '⌘+Option+Esc → chọn app → Force Quit',
+        'Nếu thường xuyên: cập nhật app lên version mới nhất',
+        'Xoá app pref: ~/Library/Preferences/[tên.app].plist'
+      ],
+      warning: null,
+      category:'app'
+    },
+    {
+      id:'e7', symptom:'Màn hình bị tối / không lên', icon:'🖥️',
+      causes:['Sleep mode', 'Screensaver', 'Display settings'],
+      fixes:[
+        'Di chuột / nhấn phím bất kỳ',
+        'Nhấn nút nguồn nhẹ',
+        'Kết nối nguồn điện nếu pin yếu',
+        'Reset SMC (xem hướng dẫn Optimization Guide)'
+      ],
+      warning: null,
+      category:'display'
+    },
+    {
+      id:'e8', symptom:'Sound không ra loa', icon:'🔇',
+      causes:['Volume bị mute', 'Output device sai', 'App đang giữ audio'],
+      fixes:[
+        'Kiểm tra volume bar trên menu bar',
+        'System Settings → Sound → Output → chọn đúng thiết bị',
+        'Option+click biểu tượng âm thanh để chọn nhanh output',
+        'Thử cắm tai nghe rồi rút ra',
+        'Restart app đang dùng audio'
+      ],
+      warning: null,
+      category:'audio'
+    },
+    {
+      id:'e9', symptom:'iCloud không đồng bộ', icon:'☁️',
+      causes:['Đăng nhập sai Apple ID', 'Mạng yếu', 'Storage đầy'],
+      fixes:[
+        'System Settings → Apple ID → kiểm tra trạng thái iCloud',
+        'Tắt/bật iCloud Drive trong System Settings',
+        'Kiểm tra dung lượng iCloud còn trống',
+        'Đăng xuất rồi đăng nhập lại Apple ID'
+      ],
+      warning: null,
+      category:'cloud'
+    },
+    {
+      id:'e10', symptom:'Bluetooth không kết nối', icon:'📡',
+      causes:['Cache Bluetooth bị lỗi', 'Thiết bị đã pair với device khác', 'Interference'],
+      fixes:[
+        'Tắt/bật Bluetooth',
+        'Xoá device khỏi danh sách paired rồi pair lại',
+        'Terminal: sudo pkill bluetoothd',
+        'Option+Shift+click Bluetooth menu → Reset the Bluetooth module'
+      ],
+      warning:'Lệnh pkill bluetoothd an toàn — chỉ restart Bluetooth daemon',
+      category:'hardware'
+    },
+    {
+      id:'e11', symptom:'Printer không in được', icon:'🖨️',
+      causes:['Driver printer cũ', 'Print queue bị kẹt', 'Kết nối mất'],
+      fixes:[
+        'System Settings → Printers & Scanners → xoá máy in rồi thêm lại',
+        'Xoá print queue: System Settings → Printers → click mũi tên → xoá job',
+        'Tải driver mới từ website hãng máy in',
+        'Thử in bằng AirPrint nếu printer hỗ trợ'
+      ],
+      warning: null,
+      category:'hardware'
+    },
+    {
+      id:'e12', symptom:'Mac không nhận USB/ổ cứng ngoài', icon:'💾',
+      causes:['Format không tương thích', 'USB hub thiếu điện', 'Driver NTFS'],
+      fixes:[
+        'Kiểm tra Finder → Preferences → bật "External disks" trong sidebar',
+        'Thử cắm trực tiếp, không qua hub',
+        'Disk Utility → xem ổ có hiện không',
+        'NTFS drive chỉ đọc được, cần Paragon NTFS để ghi',
+        'Thử port USB khác'
+      ],
+      warning:'Đừng rút ổ cứng ngoài đột ngột — luôn Eject trước',
+      category:'hardware'
+    },
+    {
+      id:'e13', symptom:'Bàn phím / trackpad không phản hồi', icon:'⌨️',
+      causes:['App bị treo', 'Accessibility setting', 'Phần mềm conflict'],
+      fixes:[
+        'Chờ vài giây — app đang xử lý',
+        'Kết nối chuột ngoài → kiểm tra hệ thống',
+        'System Settings → Accessibility → Pointer Control',
+        'Restart Mac',
+        'Reset SMC nếu vẫn không được'
+      ],
+      warning: null,
+      category:'hardware'
+    },
+    {
+      id:'e14', symptom:'Safari/Chrome chậm hoặc crash', icon:'🌐',
+      causes:['Quá nhiều tab', 'Extension nặng', 'Cache đầy'],
+      fixes:[
+        'Đóng tab không dùng — mỗi tab Safari tốn ~100MB RAM',
+        'Safari → Settings → Extensions → tắt extension không cần',
+        'Xoá cache: Safari → Settings → Advanced → Remove All Website Data',
+        'Chrome: Settings → More Tools → Clear Browsing Data'
+      ],
+      warning: null,
+      category:'app'
+    },
+    {
+      id:'e15', symptom:'Mail không nhận / gửi được', icon:'📧',
+      causes:['Mật khẩu thay đổi', 'SMTP server bị block', 'Certificate hết hạn'],
+      fixes:[
+        'Mail → Settings → Accounts → kiểm tra thông tin account',
+        'Xoá account rồi thêm lại',
+        'Kiểm tra kết nối internet',
+        'Dùng webmail để test xem server có hoạt động không'
+      ],
+      warning: null,
+      category:'app'
+    },
+    {
+      id:'e16', symptom:'Mac khởi động chậm', icon:'⏱️',
+      causes:['Nhiều Login Items', 'Ổ SSD gần đầy', 'Malware hiếm gặp'],
+      fixes:[
+        'System Settings → General → Login Items → xoá app không cần',
+        'Giải phóng ổ đĩa: giữ ít nhất 15% trống',
+        'Spotlight indexing lần đầu sau update — chờ hoàn thành',
+        'Kiểm tra với Malwarebytes (free) nếu nghi malware'
+      ],
+      warning: null,
+      category:'performance'
+    },
+    {
+      id:'e17', symptom:'App Store không mở / download được', icon:'🛍️',
+      causes:['Apple ID cần verify', 'Ngày giờ sai', 'Cache App Store'],
+      fixes:[
+        'Đăng xuất App Store rồi đăng nhập lại',
+        'System Settings → General → Date & Time → Set Automatically',
+        'Terminal: killall storeaccountd',
+        'Kiểm tra Apple System Status tại apple.com/support/systemstatus'
+      ],
+      warning: null,
+      category:'app'
+    },
+    {
+      id:'e18', symptom:'Không kết nối được AirDrop', icon:'📤',
+      causes:['Bluetooth/Wi-Fi tắt', 'Discovery bị giới hạn', 'Firewall block'],
+      fixes:[
+        'Bật cả Bluetooth VÀ Wi-Fi (AirDrop cần cả hai)',
+        'Finder → AirDrop → đặt "Allow me to be discovered by: Everyone"',
+        'System Settings → Network → Firewall: tắt tạm để test',
+        'Cả hai thiết bị phải unlock màn hình'
+      ],
+      warning: null,
+      category:'network'
+    },
+    {
+      id:'e19', symptom:'Time Machine backup thất bại', icon:'🕰️',
+      causes:['Ổ backup đầy', 'Ổ backup bị lỗi', 'Snapshot quá cũ'],
+      fixes:[
+        'Xoá backup cũ: Time Machine → Enter Time Machine → Action menu → Delete Backup',
+        'Disk Utility → First Aid trên ổ Time Machine',
+        'Xoá toàn bộ TM backup và tạo lại nếu vẫn lỗi',
+        'Thay ổ cứng backup nếu đã dùng >3 năm'
+      ],
+      warning:'Backup đầy không mất data hiện tại — chỉ không backup được thêm',
+      category:'storage'
+    },
+    {
+      id:'e20', symptom:'FaceTime / Camera không hoạt động', icon:'📷',
+      causes:['App khác đang dùng camera', 'Privacy setting', 'Camera driver'],
+      fixes:[
+        'Thoát tất cả app dùng camera (Zoom, Teams...)',
+        'System Settings → Privacy & Security → Camera → cấp quyền cho app',
+        'Restart Mac',
+        'Nếu camera không hiện trong System Report: mang đi bảo hành'
+      ],
+      warning: null,
+      category:'hardware'
+    },
+  ],
+
+  // ─── 15 PHÍM TẮT QUAN TRỌNG ─────────────────────────────
+  shortcuts: [
+    { id:'s1', combo:'⌘+Space', action:'Spotlight Search', win:'Win+S', level:'essential' },
+    { id:'s2', combo:'⌘+C/V/X', action:'Copy / Paste / Cut', win:'Ctrl+C/V/X', level:'essential' },
+    { id:'s3', combo:'⌘+Z', action:'Undo', win:'Ctrl+Z', level:'essential' },
+    { id:'s4', combo:'⌘+Q', action:'Thoát ứng dụng', win:'Alt+F4', level:'essential' },
+    { id:'s5', combo:'⌘+W', action:'Đóng cửa sổ', win:'Ctrl+W', level:'essential' },
+    { id:'s6', combo:'⌘+Tab', action:'Chuyển giữa ứng dụng', win:'Alt+Tab', level:'essential' },
+    { id:'s7', combo:'⌘+Option+Esc', action:'Force Quit app bị đơ', win:'Ctrl+Shift+Esc', level:'essential' },
+    { id:'s8', combo:'⌘+Shift+3', action:'Chụp toàn màn hình', win:'PrintScreen', level:'essential' },
+    { id:'s9', combo:'⌘+Shift+4', action:'Chụp vùng chọn', win:'Win+Shift+S', level:'essential' },
+    { id:'s10', combo:'⌘+,', action:'Mở Settings của app hiện tại', win:'Ctrl+,', level:'power' },
+    { id:'s11', combo:'⌘+F', action:'Tìm kiếm trong app', win:'Ctrl+F', level:'essential' },
+    { id:'s12', combo:'⌘+T', action:'Tab mới (browser/Finder)', win:'Ctrl+T', level:'essential' },
+    { id:'s13', combo:'⌘+Shift+5', action:'Screenshot/Recording menu', win:'Win+Shift+S', level:'power' },
+    { id:'s14', combo:'Ctrl+⌘+Space', action:'Emoji & Symbol picker', win:'Win+.', level:'power' },
+    { id:'s15', combo:'⌘+`', action:'Chuyển giữa cửa sổ cùng app', win:'Không có', level:'power' },
+  ],
+
+  // ─── 10 ĐẶC SẢN MAC ──────────────────────────────────────
+  features: [
+    {
+      id:'f1', name:'Spotlight', icon:'🔦',
+      desc:'Công cụ tìm kiếm toàn năng — tìm file, app, email, từ điển, tính toán, chuyển đơn vị',
+      howTo:'Nhấn ⌘+Space, gõ bất kỳ thứ gì',
+      when:'Mọi lúc — thay thế hoàn toàn việc mở Finder để tìm file',
+      benefit:'Tiết kiệm hàng chục giây mỗi lần tìm kiếm'
+    },
+    {
+      id:'f2', name:'Mission Control', icon:'🗂️',
+      desc:'Xem toàn bộ cửa sổ đang mở, quản lý nhiều Desktop ảo',
+      howTo:'F3 hoặc vuốt 3 ngón lên trackpad',
+      when:'Khi mở nhiều app cùng lúc, cần tổ chức workspace',
+      benefit:'Tăng năng suất với multiple virtual desktops'
+    },
+    {
+      id:'f3', name:'AirDrop', icon:'📡',
+      desc:'Gửi file giữa các thiết bị Apple tức thì qua Wi-Fi/Bluetooth, không cần internet',
+      howTo:'Finder → AirDrop, hoặc Share button trong bất kỳ app nào',
+      when:'Chuyển ảnh từ iPhone, chia file cho đồng nghiệp có Mac',
+      benefit:'Nhanh hơn USB, không cần cáp, không giới hạn dung lượng'
+    },
+    {
+      id:'f4', name:'Handoff', icon:'🤝',
+      desc:'Tiếp tục công việc từ iPhone/iPad trên Mac và ngược lại — liền mạch',
+      howTo:'Tự động khi đăng nhập cùng Apple ID, bật Bluetooth',
+      when:'Bắt đầu email trên iPhone, tiếp tục gõ trên Mac',
+      benefit:'Luồng làm việc không bị gián đoạn giữa các thiết bị'
+    },
+    {
+      id:'f5', name:'Time Machine', icon:'🕰️',
+      desc:'Backup tự động mọi giờ, giữ lịch sử file, phục hồi file đã xoá',
+      howTo:'Cắm ổ cứng ngoài → System Settings → Time Machine',
+      when:'Luôn luôn bật — đây là bảo hiểm dữ liệu',
+      benefit:'Phục hồi bất kỳ file nào từ quá khứ, kể cả xoá nhầm'
+    },
+    {
+      id:'f6', name:'Stage Manager', icon:'🎭',
+      desc:'Gom các cửa sổ liên quan thành nhóm, giảm lộn xộn màn hình',
+      howTo:'System Settings → Desktop & Dock → Stage Manager',
+      when:'Khi làm nhiều task song song, muốn tập trung từng task',
+      benefit:'Giảm cognitive load, tăng tập trung'
+    },
+    {
+      id:'f7', name:'Universal Clipboard', icon:'📋',
+      desc:'Copy trên iPhone, Paste trên Mac — clipboard chia sẻ giữa thiết bị Apple',
+      howTo:'Tự động khi cùng Apple ID, Wi-Fi, Bluetooth',
+      when:'Copy link/text/ảnh từ điện thoại sang máy tính',
+      benefit:'Không cần gửi mail cho chính mình nữa'
+    },
+    {
+      id:'f8', name:'Quick Look', icon:'👁️',
+      desc:'Xem trước file mọi loại không cần mở app: PDF, ảnh, video, code, zip',
+      howTo:'Chọn file trong Finder → nhấn Space',
+      when:'Tìm đúng file trong nhiều file trước khi mở',
+      benefit:'Tiết kiệm thời gian, không cần mở ứng dụng để preview'
+    },
+    {
+      id:'f9', name:'Continuity Camera', icon:'📷',
+      desc:'Dùng camera iPhone như webcam cho Mac, chất lượng cao hơn camera tích hợp',
+      howTo:'Trong video call app → chọn iPhone làm camera source',
+      when:'Khi cần chất lượng camera tốt cho meeting, interview',
+      benefit:'Camera iPhone tốt hơn nhiều camera built-in MacBook cũ'
+    },
+    {
+      id:'f10', name:'Focus Mode', icon:'🎯',
+      desc:'Tắt thông báo từ app không liên quan theo ngữ cảnh: Work, Personal, Sleep',
+      howTo:'System Settings → Focus → tạo Focus profile',
+      when:'Giờ làm việc, học bài, ngủ — cần không bị làm phiền',
+      benefit:'Tăng năng suất, giảm distraction'
+    },
+  ],
+
+  // ─── 10 SO SÁNH macOS vs WINDOWS ─────────────────────────
+  comparisons: [
+    {
+      id:'c1', topic:'Hệ thống file', icon:'📁',
+      windows:{ title:'Windows', detail:'Ổ C:, D:, E: — phân vùng rõ ràng. Path dùng backslash \\', score:3 },
+      mac:{ title:'macOS', detail:'Dạng cây thư mục UNIX. /Users, /Applications, /Library. Path dùng /', score:4 },
+      verdict:'macOS theo chuẩn UNIX — tốt hơn cho lập trình và server'
+    },
+    {
+      id:'c2', topic:'Cài / gỡ ứng dụng', icon:'📦',
+      windows:{ title:'Windows', detail:'.exe installer, uninstaller riêng. Registry entries. Đôi khi để lại rác', score:3 },
+      mac:{ title:'macOS', detail:'.dmg drag to Applications, hoặc App Store. Gỡ = kéo vào Trash. Sạch sẽ hơn', score:4 },
+      verdict:'macOS đơn giản và sạch hơn khi gỡ app'
+    },
+    {
+      id:'c3', topic:'Bảo mật', icon:'🛡️',
+      windows:{ title:'Windows', detail:'Mục tiêu của hầu hết malware. Cần antivirus bên thứ 3. UAC prompt', score:3 },
+      mac:{ title:'macOS', detail:'Gatekeeper, XProtect tích hợp, sandboxing. Ít malware hơn nhưng không miễn dịch', score:4 },
+      verdict:'macOS bảo mật tốt hơn nhưng cũng cần cẩn thận'
+    },
+    {
+      id:'c4', topic:'Gaming', icon:'🎮',
+      windows:{ title:'Windows', detail:'95% game hỗ trợ Windows. DirectX 12. Game Pass. Driver GPU tốt hơn', score:5 },
+      mac:{ title:'macOS', detail:'Metal API, nhưng game library nhỏ hơn nhiều. Apple Silicon tốt hơn Intel Mac', score:2 },
+      verdict:'Windows vượt trội hoàn toàn cho gaming'
+    },
+    {
+      id:'c5', topic:'Lập trình', icon:'💻',
+      windows:{ title:'Windows', detail:'WSL2 cho Linux dev. Visual Studio. .NET native. Docker ok', score:4 },
+      mac:{ title:'macOS', detail:'Terminal UNIX native. Homebrew. Tốt cho web, iOS, backend. Docker mượt hơn', score:5 },
+      verdict:'macOS tốt hơn cho web/mobile dev, Windows cho .NET/Windows dev'
+    },
+    {
+      id:'c6', topic:'Tối ưu pin', icon:'🔋',
+      windows:{ title:'Windows', detail:'Phụ thuộc hardware. Pin dao động nhiều giữa các hãng laptop', score:3 },
+      mac:{ title:'macOS', detail:'Apple Silicon M-series: 15-20 tiếng/lần sạc. Tốt nhất thị trường', score:5 },
+      verdict:'MacBook Apple Silicon vô địch về pin'
+    },
+    {
+      id:'c7', topic:'Phím tắt', icon:'⌨️',
+      windows:{ title:'Windows', detail:'Ctrl cho mọi thứ. Win key cho system. Alt+F4 thoát app', score:3 },
+      mac:{ title:'macOS', detail:'⌘ cho app actions, Ctrl cho system. Nhất quán hơn trên tất cả app', score:4 },
+      verdict:'macOS nhất quán hơn khi quen dùng'
+    },
+    {
+      id:'c8', topic:'Thiết kế / Sáng tạo', icon:'🎨',
+      windows:{ title:'Windows', detail:'Adobe full support. Wacom. Nhiều lựa chọn màn hình 4K HDR', score:4 },
+      mac:{ title:'macOS', detail:'Final Cut Pro, Logic Pro native. Màn hình Retina sắc nét. Font rendering đẹp hơn', score:5 },
+      verdict:'Cả hai đều tốt, macOS có lợi thế về font/color accuracy'
+    },
+    {
+      id:'c9', topic:'Tích hợp ecosystem', icon:'📱',
+      windows:{ title:'Windows', detail:'Tích hợp tốt với Android (Phone Link). Xbox/Game Pass integration', score:3 },
+      mac:{ title:'macOS', detail:'iPhone, iPad, Apple Watch, AirPods — liền mạch tuyệt vời. iMessage, Handoff, AirDrop', score:5 },
+      verdict:'macOS vô địch nếu bạn đã có thiết bị Apple'
+    },
+    {
+      id:'c10', topic:'Giá / Linh hoạt phần cứng', icon:'💰',
+      windows:{ title:'Windows', detail:'Chạy trên mọi phần cứng. Budget laptop $300 đến workstation $5000', score:5 },
+      mac:{ title:'macOS', detail:'Chỉ chạy trên hardware Apple. MacBook Air từ ~25 triệu VNĐ', score:2 },
+      verdict:'Windows linh hoạt hơn nhiều về budget'
+    },
+  ],
+
+  // ─── FIRST DAY CHECKLIST ──────────────────────────────────
+  firstDayChecklist: [
+    { id:'fd1', task:'Thiết lập Apple ID & iCloud', steps:['System Settings → Apple ID', 'Đăng nhập hoặc tạo tài khoản', 'Bật iCloud Drive, Photos, Contacts'], priority:'critical' },
+    { id:'fd2', task:'Cập nhật macOS', steps:['System Settings → General → Software Update', 'Cài tất cả update có sẵn', 'Khởi động lại nếu cần'], priority:'critical' },
+    { id:'fd3', task:'Cài OpenKey hoặc Unikey', steps:['Tải OpenKey từ openkey.vn', 'Mở file .dmg, kéo vào Applications', 'Bật Accessibility permission', 'Chọn bộ gõ Telex hoặc VNI'], priority:'critical' },
+    { id:'fd4', task:'Cài Google Chrome', steps:['Vào google.com/chrome trên Safari', 'Tải Chrome cho macOS', 'Mở .dmg, kéo Chrome vào Applications'], priority:'high' },
+    { id:'fd5', task:'Cài Microsoft Office', steps:['Vào office.com → đăng nhập tài khoản', 'Download Office cho Mac', 'Cài Word, Excel, PowerPoint'], priority:'high' },
+    { id:'fd6', task:'Tùy chỉnh Trackpad', steps:['System Settings → Trackpad', 'Bật Tap to click', 'Tăng Tracking speed', 'Bật tất cả Multi-Touch gestures'], priority:'high' },
+    { id:'fd7', task:'Bật FileVault (mã hoá ổ đĩa)', steps:['System Settings → Privacy & Security', 'FileVault → Turn On', 'Lưu recovery key ở nơi an toàn', 'Chờ mã hoá hoàn thành'], priority:'recommended' },
+    { id:'fd8', task:'Cài đặt Time Machine', steps:['Cắm ổ cứng ngoài (≥500GB)', 'System Settings → General → Time Machine', 'Add Backup Disk → chọn ổ cứng', 'Đợi backup đầu tiên (30-60 phút)'], priority:'recommended' },
+    { id:'fd9', task:'Tùy chỉnh Dock', steps:['Right-click Dock → Dock Preferences', 'Đặt position Left/Bottom', 'Bật Auto-hide nếu thích', 'Kéo app vào/ra khỏi Dock'], priority:'optional' },
+    { id:'fd10', task:'Cài đặt Night Shift', steps:['System Settings → Displays → Night Shift', 'Bật Scheduled: Sunset to Sunrise', 'Điều chỉnh Color Temperature'], priority:'optional' },
+  ],
+
+  // ─── OPTIMIZATION GUIDE ───────────────────────────────────
+  optimizations: [
+    { id:'o1', title:'Kiểm tra Activity Monitor', icon:'📊', steps:['⌘+Space → "Activity Monitor"', 'Tab CPU: xem process nào >20%', 'Tab Memory: xem Memory Pressure (green=ok)', 'Tab Energy: xem app nào ngốn pin'], warning:null },
+    { id:'o2', title:'Quản lý Login Items', icon:'🚀', steps:['System Settings → General → Login Items', 'Xem danh sách "Open at Login"', 'Toggle tắt app không cần thiết', 'Xem "Allow in Background" — tắt app lạ'], warning:null },
+    { id:'o3', title:'Dọn dung lượng ổ đĩa', icon:'💾', steps:['Apple menu → About This Mac → More Info', 'Storage → Manage', 'Xoá Large Files, xoá Applications không dùng', 'Bật Optimize Mac Storage cho iCloud'], warning:'Không xoá thư mục System hoặc Library' },
+    { id:'o4', title:'Reset SMC (Intel Mac)', icon:'⚡', steps:['Tắt Mac hoàn toàn', 'Giữ Shift+Control+Option+Power cùng lúc 10 giây', 'Thả ra, nhấn Power bật lại', 'Dùng khi: pin, nhiệt, quạt bất thường'], warning:'⚠ Chỉ dành cho Intel Mac, KHÔNG dùng cho Apple Silicon (M1/M2/M3)' },
+    { id:'o5', title:'Reset PRAM/NVRAM (Intel Mac)', icon:'🔧', steps:['Tắt Mac', 'Nhấn Power, ngay lập tức giữ ⌘+Option+P+R', 'Giữ 20 giây đến khi nghe tiếng chime 2 lần', 'Thả ra — Mac tiếp tục khởi động'], warning:'⚠ Chỉ Intel Mac. Apple Silicon tự reset khi cần' },
+    { id:'o6', title:'Xóa cache hệ thống', icon:'🗑️', steps:['Spotlight → "~/Library/Caches"', 'Chọn tất cả → xoá vào Trash', 'HOẶC dùng app CleanMyMac (trả phí)', 'Restart Mac sau khi xoá'], warning:'⚠ Không xoá ~/Library/Application Support — chứa data app' },
+    { id:'o7', title:'Chạy First Aid ổ đĩa', icon:'🏥', steps:['Spotlight → "Disk Utility"', 'Chọn ổ đĩa chính (Macintosh HD)', 'Nhấn "First Aid" → Run', 'Nếu báo lỗi: khởi động vào Recovery Mode để sửa'], warning:'Backup dữ liệu trước khi chạy First Aid trên ổ có vấn đề' },
+    { id:'o8', title:'Tối ưu Safari', icon:'🌐', steps:['Safari → Settings → Extensions: tắt extension không dùng', 'Develop menu → Empty Caches (bật Develop: Safari Preferences → Advanced)', 'Tắt tab không dùng — mỗi tab tốn RAM', 'Privacy Report: xem tracker bị block'], warning:null },
+  ],
+
+  // ─── INTENT CLASSIFICATION KEYWORDS ─────────────────────
+  intents: {
+    'performance': ['chậm', 'lag', 'nóng', 'giật', 'đơ', 'treo', 'ram', 'cpu', 'pin tụt', 'tiết kiệm pin', 'battery', 'speed up'],
+    'error': ['lỗi', 'không cài được', 'không mở được', 'crash', 'bị tắt', 'không nhận', 'không kết nối', 'failed', 'error', 'không hoạt động'],
+    'shortcut': ['phím tắt', 'shortcut', 'keyboard', 'bàn phím', 'phím nào', 'tổ hợp phím', 'hotkey'],
+    'comparison': ['so sánh', 'windows vs', 'vs windows', 'khác gì', 'tốt hơn', 'khác nhau', 'giống nhau', 'difference'],
+    'beginner': ['mới dùng', 'lần đầu', 'chưa biết', 'hướng dẫn', 'làm thế nào', 'cách', 'how to', 'getting started'],
+    'tutorial': ['cách', 'hướng dẫn', 'tutorial', 'step by step', 'từng bước', 'làm sao', 'bật', 'tắt', 'cài đặt', 'setup'],
+    'app': ['ứng dụng', 'app', 'phần mềm', 'cài', 'gỡ', 'thay thế', 'tương đương', 'download', 'install'],
+  }
+};
+
+// ============================================================
+// MacBridge AI — Trackpad Training Data
+// ============================================================
+const TRACKPAD_EXERCISES = [
+  {
+    id: 'tp1',
+    title: 'Cuộn trang',
+    subtitle: '2 ngón tay',
+    icon: '☝️',
+    instruction: 'Đặt 2 ngón lên trackpad và trượt LÊN hoặc XUỐNG',
+    gesture: 'scroll',
+    animation: 'scroll',
+    hint: 'Hướng cuộn ngược với Windows — đây là "Natural Scrolling"',
+    xp: 10
+  },
+  {
+    id: 'tp2',
+    title: 'Click phải',
+    subtitle: '2 ngón tay tap',
+    icon: '✌️',
+    instruction: 'Tap 2 ngón cùng lúc để mở menu ngữ cảnh (= right-click)',
+    gesture: 'two-finger-tap',
+    animation: 'tap2',
+    hint: 'Hoặc bật "Secondary Click" trong System Settings → Trackpad',
+    xp: 10
+  },
+  {
+    id: 'tp3',
+    title: 'Mission Control',
+    subtitle: '3 ngón vuốt lên',
+    icon: '🖐️',
+    instruction: 'Đặt 3 ngón và vuốt LÊN để xem tất cả cửa sổ',
+    gesture: 'three-finger-up',
+    animation: 'swipe-up',
+    hint: 'Đây là cách xem nhanh tất cả app đang mở — giống Win+Tab',
+    xp: 15
+  },
+  {
+    id: 'tp4',
+    title: 'Chuyển Desktop',
+    subtitle: '3 ngón vuốt ngang',
+    icon: '👋',
+    instruction: 'Vuốt 3 ngón TRÁI hoặc PHẢI để đổi Virtual Desktop',
+    gesture: 'three-finger-lr',
+    animation: 'swipe-lr',
+    hint: 'Tạo Desktop mới trong Mission Control để chia workspace',
+    xp: 15
+  },
+  {
+    id: 'tp5',
+    title: 'Launchpad',
+    subtitle: '4 ngón pinch',
+    icon: '🤌',
+    instruction: 'Đặt 4 ngón rồi kéo VÀO TRONG (pinch) để mở Launchpad',
+    gesture: 'four-finger-pinch',
+    animation: 'pinch',
+    hint: 'Launchpad = màn hình app như iPhone — xem tất cả app đã cài',
+    xp: 20
+  },
+  {
+    id: 'tp6',
+    title: 'Back / Forward',
+    subtitle: '2 ngón vuốt ngang',
+    icon: '👈',
+    instruction: 'Vuốt 2 ngón TRÁI để Back, PHẢI để Forward trong browser',
+    gesture: 'two-finger-lr',
+    animation: 'back-forward',
+    hint: 'Hoạt động trong Safari, Finder, và hầu hết các app',
+    xp: 10
+  },
+  {
+    id: 'tp7',
+    title: 'Zoom in/out',
+    subtitle: '2 ngón pinch',
+    icon: '🔍',
+    instruction: 'Kéo 2 ngón RA NGOÀI để zoom in, vào trong để zoom out',
+    gesture: 'two-finger-zoom',
+    animation: 'zoom',
+    hint: 'Hoạt động trong Photos, Safari, Maps và nhiều app khác',
+    xp: 10
+  },
+  {
+    id: 'tp8',
+    title: 'Notification Center',
+    subtitle: '2 ngón từ cạnh phải',
+    icon: '🔔',
+    instruction: 'Vuốt 2 ngón từ CẠNH PHẢI màn hình vào trong',
+    gesture: 'two-finger-right-edge',
+    animation: 'notif',
+    hint: 'Mở Notification Center — xem thông báo và widgets',
+    xp: 15
+  },
+];
+
+// ============================================================
+// MacBridge AI — Troubleshoot Decision Tree Engine
+// ============================================================
+
+const TroubleshootEngine = {
+
+  // Decision tree definition
+  tree: {
+    root: {
+      question: 'Bạn đang gặp vấn đề gì?',
+      type: 'symptom-picker',
+      options: [
+        { label:'🐢 Mac chạy chậm', next:'slow_q1' },
+        { label:'🔋 Pin tụt nhanh', next:'battery_q1' },
+        { label:'🔥 Máy nóng bất thường', next:'hot_q1' },
+        { label:'🚫 Không cài được app', next:'app_install_q1' },
+        { label:'📶 Wi-Fi / mạng lỗi', next:'wifi_q1' },
+        { label:'🌀 App bị đơ / crash', next:'app_crash_q1' },
+        { label:'🔇 Không có âm thanh', next:'sound_q1' },
+        { label:'💾 Ổ đĩa / USB lỗi', next:'storage_q1' },
+      ]
+    },
+
+    // ── MAC CHẬM ──────────────────────────────────────────
+    slow_q1: {
+      question: 'Mac chậm xảy ra khi nào?',
+      type: 'single-choice',
+      options: [
+        { label:'Ngay sau khi bật máy', next:'slow_startup' },
+        { label:'Khi dùng một app cụ thể', next:'slow_app' },
+        { label:'Lúc nào cũng chậm', next:'slow_always_q2' },
+      ]
+    },
+    slow_always_q2: {
+      question: 'Ổ đĩa còn bao nhiêu trống?',
+      type: 'single-choice',
+      options: [
+        { label:'Dưới 10GB trống', next:'slow_disk' },
+        { label:'Trên 10GB', next:'slow_ram' },
+        { label:'Không biết', next:'slow_check' },
+      ]
+    },
+    slow_startup: {
+      type: 'solution',
+      title: '🚀 Mac khởi động chậm',
+      causes: ['Quá nhiều app khởi động cùng Mac', 'Spotlight đang index lần đầu sau update'],
+      steps: [
+        'System Settings → General → Login Items',
+        'Toggle tắt hết app trong "Open at Login"',
+        'Giữ lại chỉ những app bạn LUÔN cần',
+        'Khởi động lại và đo thời gian',
+        'Nếu vẫn chậm: kiểm tra SMC (Optimization Guide)'
+      ],
+      warning: null,
+      score: 2
+    },
+    slow_app: {
+      type: 'solution',
+      title: '📦 App cụ thể gây chậm',
+      causes: ['App bị lỗi hoặc version cũ', 'App thiếu RAM', 'File app bị corrupt'],
+      steps: [
+        'Mở Activity Monitor → tìm app đó → xem CPU%',
+        'Thoát app hoàn toàn bằng ⌘+Q',
+        'Khởi động lại app',
+        'Cập nhật app lên version mới nhất',
+        'Nếu vẫn lỗi: gỡ cài đặt rồi cài lại từ đầu'
+      ],
+      warning: null,
+      score: 2
+    },
+    slow_disk: {
+      type: 'solution',
+      title: '💾 Ổ đĩa gần đầy — nguyên nhân hàng đầu gây chậm',
+      causes: ['macOS cần ít nhất 10-15% trống để hoạt động tốt', 'Virtual memory không đủ chỗ'],
+      steps: [
+        'Apple menu → About This Mac → More Info → Storage',
+        'Xoá file trong Downloads và Desktop',
+        'Empty Trash (⌘+Shift+Delete)',
+        'Bật Optimize Storage trong iCloud Settings',
+        'Dùng app "DiskSight" (free) để tìm file to'
+      ],
+      warning: '⚠️ Đừng bao giờ để ổ đĩa đầy hoàn toàn — Mac sẽ không hoạt động được',
+      score: 3
+    },
+    slow_ram: {
+      type: 'solution',
+      title: '🧠 Có thể RAM đang đầy',
+      causes: ['Quá nhiều app chạy cùng lúc', 'App bị memory leak'],
+      steps: [
+        'Activity Monitor → tab Memory',
+        'Xem Memory Pressure: Xanh=OK, Vàng=Cảnh báo, Đỏ=Đầy',
+        'Thoát app không dùng bằng ⌘+Q',
+        'Restart Mac để giải phóng RAM',
+        'Cân nhắc nâng RAM nếu thường xuyên bị vàng/đỏ'
+      ],
+      warning: null,
+      score: 2
+    },
+    slow_check: {
+      type: 'solution',
+      title: '🔍 Kiểm tra toàn diện Mac',
+      causes: ['Cần xác định nguyên nhân trước'],
+      steps: [
+        'Spotlight → "Activity Monitor" → mở lên',
+        'Tab CPU: có process nào >30% không?',
+        'Tab Memory: Memory Pressure màu gì?',
+        'Tab Disk: Disk Activity cao không?',
+        'Quay lại báo cáo kết quả để được hỗ trợ tiếp'
+      ],
+      warning: null,
+      score: 2
+    },
+
+    // ── PIN TỤT NHANH ─────────────────────────────────────
+    battery_q1: {
+      question: 'Pin tụt nhanh cụ thể thế nào?',
+      type: 'single-choice',
+      options: [
+        { label:'Mất >20% trong 1 giờ bình thường', next:'battery_high' },
+        { label:'Pin không đạt được 100% khi sạc', next:'battery_health' },
+        { label:'Số liệu pin nhảy loạn', next:'battery_calibrate' },
+      ]
+    },
+    battery_high: {
+      type: 'solution',
+      title: '⚡ Mức tiêu thụ pin cao',
+      causes: ['App chạy nền ngốn pin', 'Màn hình sáng quá', 'Location services bật nhiều'],
+      steps: [
+        'Click biểu tượng pin trên menu bar → xem "Using Significant Energy"',
+        'Thoát app ngốn pin không cần thiết',
+        'System Settings → Battery → bật Low Power Mode',
+        'Giảm độ sáng màn hình (phím F1)',
+        'System Settings → Privacy → Location Services → tắt app không cần định vị'
+      ],
+      warning: null,
+      score: 2
+    },
+    battery_health: {
+      type: 'solution',
+      title: '🔋 Kiểm tra Battery Health',
+      causes: ['Pin đã qua nhiều chu kỳ sạc', 'Pin bị lão hoá'],
+      steps: [
+        'Giữ Option + click biểu tượng pin',
+        'Xem "Battery Condition": Normal = ổn',
+        'Hoặc: About This Mac → System Report → Power',
+        'Xem "Cycle Count" (>1000 chu kỳ = pin cũ)',
+        'Nếu condition "Service Recommended" → đặt lịch thay pin'
+      ],
+      warning: 'Apple thay pin MacBook tại AASP khoảng 1.5-3 triệu VNĐ tuỳ model',
+      score: 3
+    },
+    battery_calibrate: {
+      type: 'solution',
+      title: '📊 Hiệu chỉnh pin',
+      causes: ['Pin cần calibrate lại', 'SMC bị lỗi'],
+      steps: [
+        'Sạc đầy 100%, giữ thêm 2 tiếng sau khi đầy',
+        'Dùng đến khi Mac tự tắt',
+        'Để Mac tắt 5 tiếng',
+        'Sạc lại không ngắt đến 100%',
+        'Reset SMC nếu Intel Mac (xem Optimization Guide)'
+      ],
+      warning: null,
+      score: 2
+    },
+
+    // ── MÁNG NÓNG ─────────────────────────────────────────
+    hot_q1: {
+      question: 'Mac nóng khi đang làm gì?',
+      type: 'single-choice',
+      options: [
+        { label:'Khi render video / chơi game', next:'hot_heavy' },
+        { label:'Khi không làm gì nặng', next:'hot_idle' },
+        { label:'Ngay sau khi update macOS', next:'hot_update' },
+      ]
+    },
+    hot_heavy: {
+      type: 'solution',
+      title: '🎬 Nóng khi làm việc nặng — Bình thường',
+      causes: ['CPU/GPU chạy full load — sinh nhiệt là bình thường'],
+      steps: [
+        'Đặt Mac trên bề mặt cứng (không phải đệm/gối)',
+        'Dùng đế tản nhiệt nếu làm việc lâu',
+        'Bật Low Power Mode để giảm nhiệt',
+        'Tắt bớt app đang mở không dùng'
+      ],
+      warning: 'Nếu >95°C thường xuyên — fan có thể bị lỗi, mang đi kiểm tra',
+      score: 1
+    },
+    hot_idle: {
+      type: 'solution',
+      title: '🔥 Nóng khi không làm gì — Cần điều tra',
+      causes: ['Có process đang chạy nền ngốn CPU', 'Spotlight đang index', 'Malware (hiếm)'],
+      steps: [
+        'Activity Monitor → CPU → Sort by % CPU',
+        'Tìm process nào >30% khi idle',
+        'Nếu là "mds_stores" → Spotlight đang index, chờ 30 phút',
+        'Nếu process lạ không nhận ra → Google tên process đó',
+        'Khởi động lại Mac'
+      ],
+      warning: null,
+      score: 2
+    },
+    hot_update: {
+      type: 'solution',
+      title: '🔄 Nóng sau update — Thường tự hết',
+      causes: ['macOS đang re-index Spotlight', 'App đang compile/update sau OS update'],
+      steps: [
+        'Để Mac chạy bình thường 30-60 phút',
+        'Cắm sạc trong lúc này',
+        'Không tắt Mac đột ngột',
+        'Sau 1 tiếng nếu vẫn nóng → Activity Monitor kiểm tra'
+      ],
+      warning: null,
+      score: 1
+    },
+
+    // ── CÀI APP ───────────────────────────────────────────
+    app_install_q1: {
+      question: 'Bạn nhận được thông báo gì?',
+      type: 'single-choice',
+      options: [
+        { label:'"App cannot be opened" - unidentified developer', next:'app_gatekeeper' },
+        { label:'File .dmg không mount được', next:'app_dmg' },
+        { label:'App cài xong nhưng không mở được', next:'app_wont_open' },
+      ]
+    },
+    app_gatekeeper: {
+      type: 'solution',
+      title: '🔐 Bypass Gatekeeper an toàn',
+      causes: ['App từ developer chưa được Apple certify'],
+      steps: [
+        'Cách 1: Right-click vào app → Open → Open',
+        'Cách 2: System Settings → Privacy & Security',
+        'Cuộn xuống dưới → thấy thông báo app bị block',
+        'Nhấn "Open Anyway"',
+        'Nhập mật khẩu admin nếu cần'
+      ],
+      warning: '⚠️ Chỉ bypass với app từ nguồn uy tín. Không bypass app lạ không rõ nguồn gốc!',
+      score: 2
+    },
+    app_dmg: {
+      type: 'solution',
+      title: '💿 File .dmg lỗi',
+      causes: ['File download bị corrupt', 'Ổ đĩa đầy', 'Format không tương thích'],
+      steps: [
+        'Xoá file đã tải, tải lại từ đầu',
+        'Kiểm tra dung lượng ổ đĩa còn trống',
+        'Disk Utility → File → Open Disk Image → chọn file .dmg',
+        'Kiểm tra hash MD5 của file nếu website có cung cấp'
+      ],
+      warning: null,
+      score: 2
+    },
+    app_wont_open: {
+      type: 'solution',
+      title: '😤 App cài được nhưng không mở',
+      causes: ['Thiếu permission', 'App cần Rosetta (app Intel trên Apple Silicon)', 'Conflict với khác'],
+      steps: [
+        'Right-click app → Get Info → xem "Open using Rosetta"',
+        'Nếu là app Intel: tick vào "Open using Rosetta"',
+        'Kiểm tra yêu cầu macOS version của app',
+        'Gỡ rồi cài lại',
+        'Thử cài từ App Store thay vì .dmg nếu có'
+      ],
+      warning: null,
+      score: 2
+    },
+
+    // ── WI-FI ─────────────────────────────────────────────
+    wifi_q1: {
+      question: 'Vấn đề Wi-Fi cụ thể là?',
+      type: 'single-choice',
+      options: [
+        { label:'Kết nối được nhưng chậm', next:'wifi_slow' },
+        { label:'Mất kết nối liên tục', next:'wifi_drop' },
+        { label:'Không tìm thấy mạng', next:'wifi_noscan' },
+      ]
+    },
+    wifi_slow: {
+      type: 'solution',
+      title: '📶 Wi-Fi chậm',
+      causes: ['DNS chậm', 'Channel Wi-Fi bị nhiễu', 'Xa router'],
+      steps: [
+        'System Settings → Wi-Fi → Details → DNS',
+        'Thêm 8.8.8.8 và 1.1.1.1 làm DNS',
+        'Tắt/bật Wi-Fi để reconnect',
+        'Thử kết nối 5GHz thay vì 2.4GHz nếu có',
+        'Chạy Wireless Diagnostics: Option+click Wi-Fi icon'
+      ],
+      warning: null,
+      score: 2
+    },
+    wifi_drop: {
+      type: 'solution',
+      title: '🔄 Wi-Fi bị ngắt liên tục',
+      causes: ['Cấu hình Wi-Fi cũ bị lỗi', 'Power saving tự ngắt Wi-Fi'],
+      steps: [
+        'System Settings → Wi-Fi → Details → Forget This Network',
+        'Kết nối lại từ đầu',
+        'Terminal: sudo ifconfig en0 down && sudo ifconfig en0 up',
+        'Tạo Network Location mới: Network Settings → Location → Edit',
+        'Reset network settings (xem KB.errors[4])'
+      ],
+      warning: 'Lệnh Terminal trên an toàn',
+      score: 2
+    },
+    wifi_noscan: {
+      type: 'solution',
+      title: '📡 Không quét được mạng Wi-Fi',
+      causes: ['Wi-Fi adapter lỗi', 'macOS bug', 'Interference'],
+      steps: [
+        'Option+Shift+click Wi-Fi icon → Reset the Wi-Fi module',
+        'Tắt Mac hoàn toàn, chờ 30 giây, bật lại',
+        'System Information → Network → Wi-Fi → kiểm tra có nhận card không',
+        'Reset SMC nếu Intel Mac'
+      ],
+      warning: 'Nếu Wi-Fi không hiện trong System Information → phần cứng bị lỗi, cần bảo hành',
+      score: 3
+    },
+
+    // ── APP CRASH ─────────────────────────────────────────
+    app_crash_q1: {
+      type: 'solution',
+      title: '🌀 Xử lý app bị đơ',
+      causes: ['App bị deadlock', 'Thiếu bộ nhớ', 'Bug trong version hiện tại'],
+      steps: [
+        'Chờ 30 giây — đôi khi tự phục hồi',
+        '⌘+Option+Esc → chọn app → Force Quit',
+        'Mở lại app',
+        'Nếu thường xuyên crash: App Store → Updates → cập nhật app',
+        'Xoá preference: ~/Library/Preferences/ tìm file .plist của app'
+      ],
+      warning: null,
+      score: 2
+    },
+
+    // ── ÂM THANH ─────────────────────────────────────────
+    sound_q1: {
+      type: 'solution',
+      title: '🔇 Không có âm thanh',
+      causes: ['Output device sai', 'Volume bị mute', 'App chiếm audio'],
+      steps: [
+        'Option+click biểu tượng âm thanh → chọn đúng Output device',
+        'System Settings → Sound → Output → chọn "MacBook Speakers"',
+        'Kiểm tra volume slider không bị kéo về 0',
+        'Thử cắm tai nghe rồi rút ra',
+        'Restart app đang dùng audio (Spotify, YouTube...)'
+      ],
+      warning: null,
+      score: 1
+    },
+
+    // ── STORAGE ───────────────────────────────────────────
+    storage_q1: {
+      type: 'solution',
+      title: '💾 USB / Ổ cứng ngoài không nhận',
+      causes: ['Format không tương thích (NTFS chỉ đọc)', 'Thiếu điện qua hub', 'Finder settings ẩn'],
+      steps: [
+        'Finder → Settings → General → bật "External disks" trên sidebar',
+        'Thử cắm trực tiếp, không qua hub USB',
+        'Disk Utility → xem ổ có hiện không',
+        'NTFS: chỉ đọc được, cần "Paragon NTFS" (~10$ để ghi)',
+        'Thử eject hoàn toàn rồi cắm lại'
+      ],
+      warning: '⚠️ LUÔN Eject ổ cứng ngoài trước khi rút để tránh mất dữ liệu',
+      score: 2
+    },
+  },
+
+  // ── Engine State ──────────────────────────────────────────
+  _currentNode: 'root',
+  _pathHistory: [],
+
+  start() {
+    this._currentNode = 'root';
+    this._pathHistory = [];
+    return this.tree.root;
+  },
+
+  navigate(optionNext) {
+    this._pathHistory.push(this._currentNode);
+    this._currentNode = optionNext;
+    return this.tree[optionNext];
+  },
+
+  back() {
+    if (this._pathHistory.length === 0) return null;
+    this._currentNode = this._pathHistory.pop();
+    return this.tree[this._currentNode];
+  },
+
+  getCurrentNode() {
+    return this.tree[this._currentNode];
+  }
+};
+
+// ============================================================
+// MacBridge AI v6 — Logic (State · AI · UI · All modules)
+// ============================================================
+
+// ── THEME PRESETS ────────────────────────────────────────────
+const THEMES = [
+  {id:'pink',   name:'Hồng Neon',  c1:'#FF3CAC', c2:'#784BA0', c3:'#2B86C5'},
+  {id:'ocean',  name:'Đại dương',  c1:'#06b6d4', c2:'#3b82f6', c3:'#8b5cf6'},
+  {id:'matrix', name:'Ma trận',    c1:'#B4F000', c2:'#06b6d4', c3:'#0ea5e9'},
+  {id:'sunset', name:'Hoàng hôn',  c1:'#f97316', c2:'#ef4444', c3:'#f59e0b'},
+  {id:'violet', name:'Tím',        c1:'#a855f7', c2:'#6366f1', c3:'#8b5cf6'},
+  {id:'rose',   name:'Hồng nhẹ',   c1:'#f43f5e', c2:'#fb7185', c3:'#e879f9'},
+  {id:'emerald',name:'Ngọc lục',   c1:'#10b981', c2:'#14b8a6', c3:'#06b6d4'},
+  {id:'amber',  name:'Hổ phách',   c1:'#f59e0b', c2:'#d97706', c3:'#ef4444'},
+];
+
+// ── STATE ────────────────────────────────────────────────────
+const State = {
+  D: {
+    xp:0, level:0,
+    learnedSC:[], clDone:{}, tpDone:[],
+    badges:[], chatHistory:[],
+    topics:{}, searchHistory:[],
+    userName:'',
+    theme:'pink', ac1:'#FF3CAC', ac2:'#784BA0', ac3:'#2B86C5',
+    lightMode:false,
+  },
+  init() {
+    try {
+      const s = localStorage.getItem('mb6');
+      if (s) {
+        const parsed = JSON.parse(s);
+        // Kiểm tra lịch sử chat có bị hỏng không (chỉ có user, không có AI)
+        if (parsed.chatHistory && parsed.chatHistory.length > 0) {
+          const hasAI = parsed.chatHistory.some(m => m.role === 'ai');
+          if (!hasAI) {
+            // Lịch sử bị hỏng — xoá để bắt đầu lại sạch
+            parsed.chatHistory = [];
+          }
+        }
+        this.D = Object.assign({}, this.D, parsed);
+      }
+    } catch(e) {}
+  },
+  save() { try { localStorage.setItem('mb6', JSON.stringify(this.D)); } catch(e) {} },
+  get(k) { return k ? this.D[k] : Object.assign({}, this.D); },
+  set(k,v) { this.D[k]=v; this.save(); },
+  addXP(n, reason) {
+    this.D.xp += n;
+    const newLv = this._calcLv(this.D.xp);
+    if (newLv !== this.D.level) {
+      this.D.level = newLv;
+      Toast.win('🎖️ Lên cấp: ' + LEVELS[newLv].name + '!');
+    }
+    this.save();
+    Toast.xp('+' + n + ' XP — ' + reason);
+    const xpBadge = document.getElementById('xp-val')?.closest('.xp-badge'); if(xpBadge){xpBadge.classList.add('pulse');setTimeout(()=>xpBadge.classList.remove('pulse'),400);}
+    document.getElementById('xp-val').textContent = this.D.xp;
+    document.getElementById('circ-num').textContent = this.D.xp;
+  },
+  _calcLv(x) {
+    const thresholds = [0,50,200,500,1000];
+    let lv = 0;
+    for (let i = 0; i < thresholds.length; i++) { if (x >= thresholds[i]) lv = i; }
+    return lv;
+  },
+  lvPct() {
+    const th = [0,50,200,500,1000,2000];
+    const lv = this.D.level;
+    const prev = th[lv]||0, next = th[lv+1]||2000;
+    return Math.min(100, Math.round((this.D.xp - prev) / (next - prev) * 100));
+  },
+  toggleCL(id) {
+    const was = this.D.clDone[id];
+    this.D.clDone[id] = !was;
+    if (!was) this.addXP(15, 'Hoàn thành thiết lập');
+    this.save();
+    return this.D.clDone[id];
+  },
+  clProg() {
+    const total = KB.firstDayChecklist.length;
+    const done = Object.values(this.D.clDone).filter(Boolean).length;
+    return { done, total, pct: Math.round(done/total*100) };
+  },
+  markSC(id) {
+    if (!this.D.learnedSC.includes(id)) {
+      this.D.learnedSC.push(id);
+      this.addXP(20, 'Học phím tắt mới');
+      this.save();
+    }
+  },
+  markTP(id) {
+    if (!this.D.tpDone.includes(id)) {
+      this.D.tpDone.push(id);
+      this.addXP(TRACKPAD_EXERCISES.find(t=>t.id===id)?.xp||10, 'Học cử chỉ trackpad');
+      this.save();
+    }
+  },
+  tpProg() { return { done: this.D.tpDone.length, total: TRACKPAD_EXERCISES.length }; },
+  addMsg(role, content, intent) {
+    this.D.chatHistory.push({ role, content, intent, ts: Date.now() });
+    if (intent && role==='user') this.D.topics[intent] = (this.D.topics[intent]||0)+1;
+    if (this.D.chatHistory.length > 60) this.D.chatHistory = this.D.chatHistory.slice(-60);
+    this.save();
+  },
+  badge(id, name, icon) {
+    if (!this.D.badges.find(b=>b.id===id)) {
+      this.D.badges.push({ id, name, icon, ts: Date.now() });
+      this.save();
+      Toast.win(icon + ' Huy hiệu: ' + name + '!');
+    }
+  },
+  reset() { localStorage.removeItem('mb6'); location.reload(); },
+};
+
+const LEVELS = [
+  { name:'Người mới bắt đầu', next:50 },
+  { name:'Đang học hỏi', next:200 },
+  { name:'Trung cấp', next:500 },
+  { name:'Nâng cao', next:1000 },
+  { name:'Chuyên gia', next:Infinity },
+];
+
+// ── TOAST ────────────────────────────────────────────────────
+const Toast = {
+  _q:[], _busy:false,
+  show(msg, cls, dur=2500) { this._q.push({msg,cls,dur}); if(!this._busy) this._next(); },
+  xp(m)  { this.show(m,'t-xp',2000); },
+  win(m)  { this.show(m,'t-win',3200); },
+  info(m) { this.show(m,'t-info',2000); },
+  err(m)  { this.show(m,'t-err',2500); },
+  _next() {
+    if (!this._q.length) { this._busy=false; return; }
+    this._busy = true;
+    const {msg,cls,dur} = this._q.shift();
+    const el = document.getElementById('toast');
+    el.textContent = msg; el.className = 'toast ' + cls + ' show';
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => this._next(), 320);
+    }, dur);
+  },
+};
+
+// ── NAVIGATION ───────────────────────────────────────────────
+const Nav = {
+  cur: 'dashboard', hist: [],
+  go(id, push=true) {
+    if (push && id !== this.cur) this.hist.push(this.cur);
+    this.cur = id;
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById('screen-'+id);
+    if (el) el.classList.add('active');
+    // Update nav buttons — match both data-s and sub-screens
+    const mainId = id.split('-')[0] + (id.includes('-') && !['trackpad'].includes(id.split('-')[0]) ? '-'+id.split('-')[1] : '');
+    document.querySelectorAll('.nb').forEach(b => {
+      b.classList.toggle('active', b.dataset.s === id || b.dataset.s === id.replace('-detail',''));
+    });
+    if (Inits[id]) Inits[id]();
+    // On mobile, scroll to top; on desktop keep position
+    if (window.innerWidth < 768) window.scrollTo({top:0,behavior:'smooth'});
+    else { const el2 = document.getElementById('screen-'+id); if(el2) el2.scrollTop = 0; }
+  },
+  back() { if (this.hist.length) this.go(this.hist.pop(), false); },
+};
+const Inits = {};
+
+// ── THEME SYSTEM ─────────────────────────────────────────────
+const ThemeEngine = {
+  apply(ac1, ac2, ac3) {
+    const r = document.documentElement;
+    r.style.setProperty('--ac1', ac1);
+    r.style.setProperty('--ac2', ac2);
+    r.style.setProperty('--ac3', ac3);
+    // Update gradient stops
+    const s1 = document.getElementById('cg-s1');
+    const s2 = document.getElementById('cg-s2');
+    if (s1) s1.setAttribute('stop-color', ac1);
+    if (s2) s2.setAttribute('stop-color', ac3);
+    // Update orbs
+    document.querySelector('.ob1').style.background =
+      'radial-gradient(circle,color-mix(in srgb,'+ac1+' 18%,transparent),transparent 70%)';
+    document.querySelector('.ob2').style.background =
+      'radial-gradient(circle,color-mix(in srgb,'+ac3+' 14%,transparent),transparent 70%)';
+    // Update color preview
+    const prev = document.getElementById('color-preview');
+    if (prev) prev.style.background = 'linear-gradient(135deg,'+ac1+','+ac3+')';
+    // Update sliders to reflect the new hue
+    try {
+      const hex = ac1.replace('#','');
+      const r2=parseInt(hex.substring(0,2),16)/255;
+      const g=parseInt(hex.substring(2,4),16)/255;
+      const b=parseInt(hex.substring(4,6),16)/255;
+      const max=Math.max(r2,g,b),min=Math.min(r2,g,b);
+      let h=0;
+      if(max!==min){
+        const d=max-min;
+        if(max===r2)h=60*((g-b)/d+(g<b?6:0));
+        else if(max===g)h=60*((b-r2)/d+2);
+        else h=60*((r2-g)/d+4);
+      }
+      const sl_hue=document.getElementById('sl-hue');
+      if(sl_hue){sl_hue.value=Math.round(h);document.getElementById('sl-hue-val').textContent=Math.round(h)+'°';}
+      const cp=document.getElementById('cp-color');
+      const chex=document.getElementById('cp-hex');
+      if(cp)cp.value=ac1;if(chex)chex.value=ac1;
+    } catch(e) {}
+  },
+  fromHSL(h,s,l) {
+    const toHex = n => {
+      const v = Math.round(n*255).toString(16);
+      return v.length===1?'0'+v:v;
+    };
+    const c=(1-Math.abs(2*l/100-1))*(s/100);
+    const x=c*(1-Math.abs((h/60)%2-1));
+    const m=l/100-c/2;
+    let r=0,g=0,b=0;
+    if(h<60){r=c;g=x;}else if(h<120){r=x;g=c;}
+    else if(h<180){g=c;b=x;}else if(h<240){g=x;b=c;}
+    else if(h<300){r=x;b=c;}else{r=c;b=x;}
+    return '#'+toHex(r+m)+toHex(g+m)+toHex(b+m);
+  },
+};
+
+// ── AI ENGINE ────────────────────────────────────────────────
+const AIEng = {
+  classify(text) {
+    const q = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    for (const [k,kws] of Object.entries(KB.intents)) {
+      if (kws.some(w => q.includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g,'')))) return k;
+    }
+    return 'general';
+  },
+  fuzzy(query) {
+    const q = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const words = q.split(' ').filter(w=>w.length>2);
+    if (!words.length) return [];
+    const score = str => {
+      const s = str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+      return words.reduce((n,w)=>n+(s.includes(w)?1:0),0);
+    };
+    const res = [];
+    KB.tips.forEach(t => { const sc=score(t.title+' '+t.desc+' '+t.category); if(sc>0) res.push({type:'tip',data:t,score:sc+(t.title.toLowerCase().includes(q)?2:0)}); });
+    KB.shortcuts.forEach(t => { const sc=score(t.action+' '+t.combo+' '+t.win); if(sc>0) res.push({type:'shortcut',data:t,score:sc}); });
+    KB.errors.forEach(t => { const sc=score(t.symptom+' '+t.causes.join(' ')); if(sc>0) res.push({type:'error',data:t,score:sc}); });
+    KB.features.forEach(t => { const sc=score(t.name+' '+t.desc); if(sc>0) res.push({type:'feature',data:t,score:sc}); });
+    return res.sort((a,b)=>b.score-a.score).slice(0,5);
+  },
+  respond(query, intent) {
+    const res = this.fuzzy(query);
+    if (!res.length) return this._general(query, intent);
+    const b = res[0];
+    if (b.type==='tip') return this._tip(b.data, res);
+    if (b.type==='shortcut') return this._sc(b.data);
+    if (b.type==='error') return this._err(b.data);
+    if (b.type==='feature') return this._feat(b.data);
+    return this._general(query, intent);
+  },
+  _ic(svg) { return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="color:var(--ac1);flex-shrink:0">'+svg+'</svg>'; },
+  _lbl(txt, icSvg) {
+    return '<div class="ail">'+this._ic(icSvg)+txt+'</div>';
+  },
+  _tip(t,all) {
+    State.markSC(t.id);
+    const more = all.length>1
+      ? '<div>'+this._lbl('Liên quan','<circle cx="5" cy="12" r="2" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.6"/><line x1="7" y1="11" x2="17" y2="7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="7" y1="13" x2="17" y2="17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>')+'<div class="chip-row">'+all.slice(1,3).map(r=>'<span class="chip" onclick="AI.quick(\''+esc(r.data.title||r.data.action||r.data.symptom)+'\')">'+esc2(r.data.title||r.data.action||r.data.symptom)+'</span>').join('')+'</div></div>'
+      : '';
+    return { xp:5, html:'<div class="air">'+
+      '<div>'+this._lbl('Tóm tắt','<circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M9 13 Q9 16 10 17 L14 17 Q15 16 15 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="10" y1="19" x2="14" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>')+'<p><strong>'+esc2(t.title)+'</strong> — '+esc2(t.desc)+'</p></div>'+
+      '<div>'+this._lbl('Trên Mac','<rect x="4" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M2 19 L22 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 15 L7 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 15 L17 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>')+'<div class="kbd-block">'+esc2(t.mac)+'</div>'+(t.windows!=='Không có'?'<p style="font-size:11px;color:var(--t3);margin-top:5px">Windows: <kbd>'+esc2(t.windows)+'</kbd></p>':'')+'</div>'+
+      more+'</div>' };
+  },
+  _sc(s) {
+    State.markSC(s.id);
+    return { xp:8, html:'<div class="air">'+
+      '<div>'+this._lbl('Phím tắt','<rect x="3" y="7" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="16" y="7" width="5" height="5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 9.5 L16 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 1.5"/><rect x="8" y="14" width="8" height="4" rx="1.5" stroke="currentColor" stroke-width="1.6"/>')+'<p><strong>'+esc2(s.action)+'</strong></p><div class="kbd-block">'+esc2(s.combo)+'</div><p style="font-size:11px;color:var(--t3);margin-top:5px">Windows: <kbd>'+esc2(s.win)+'</kbd></p></div>'+
+      '<div><button class="ilink" onclick="Nav.go(\'trainer\')">Luyện tập ngay →</button></div>'+
+      '</div>' };
+  },
+  _err(e) {
+    const steps = e.fixes.map((f,i)=>'<div class="step-row" style="animation-delay:'+i*.08+'s"><span class="step-num">'+(i+1)+'</span><span>'+esc2(f)+'</span></div>').join('');
+    return { xp:10, html:'<div class="air">'+
+      '<div>'+this._lbl('Vấn đề','<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/>')+'<p>'+esc2(e.icon)+' <strong>'+esc2(e.symptom)+'</strong></p></div>'+
+      '<div>'+this._lbl('Nguyên nhân','<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/>')+'<ul class="cause-list">'+e.causes.map(c=>'<li>'+esc2(c)+'</li>').join('')+'</ul></div>'+
+      '<div>'+this._lbl('Các bước xử lý','<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><polyline points="8,12 11,15 16,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>')+'<div class="step-list">'+steps+'</div></div>'+
+      (e.warning?'<div class="warn-box">'+this._lbl('Lưu ý','<path d="M12 3 L22 20 L2 20 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><line x1="12" y1="10" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1" fill="currentColor"/>')+'<p>'+esc2(e.warning)+'</p></div>':'')+
+      '</div>' };
+  },
+  _feat(f) {
+    return { xp:6, html:'<div class="air">'+
+      '<div>'+this._lbl('Tính năng Mac','<rect x="4" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M2 19 L22 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 15 L7 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 15 L17 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>')+'<p>'+esc2(f.icon)+' <strong>'+esc2(f.name)+'</strong> — '+esc2(f.desc)+'</p></div>'+
+      '<div>'+this._lbl('Cách dùng','<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><polyline points="8,12 11,15 16,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>')+'<p>'+esc2(f.howTo)+'</p></div>'+
+      '<div>'+this._lbl('Lợi ích','<circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M9 13 Q9 16 10 17 L14 17 Q15 16 15 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>')+'<p>'+esc2(f.benefit)+'</p></div>'+
+      '</div>' };
+  },
+  _general(q, intent) {
+    const sugg=['Spotlight Search','Mission Control','phím tắt cơ bản','pin yếu','cài ứng dụng'];
+    return { xp:3, html:'<div class="air">'+
+      '<div>'+this._lbl('Phân tích','<rect x="7" y="7" width="10" height="10" rx="2.5" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="7" x2="10" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="7" x2="14" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="currentColor"/>')+'<p>Câu hỏi về <strong>'+this._intentLbl(intent)+'</strong>. Thử tìm trong kho kiến thức:</p></div>'+
+      '<div class="chip-row">'+sugg.map(s=>'<span class="chip" onclick="AI.quick(\''+esc(s)+'\')">'+s+'</span>').join('')+'</div>'+
+      '</div>' };
+  },
+  _intentLbl(i) {
+    return {performance:'hiệu suất',error:'lỗi',shortcut:'phím tắt',comparison:'so sánh',beginner:'người mới',tutorial:'hướng dẫn',app:'ứng dụng'}[i]||'macOS';
+  },
+  personalSugg() {
+    const d=State.get();
+    const s=[];
+    // Prioritize based on progress
+    if(Object.keys(d.clDone).length===0) s.push('Danh sách thiết lập ngày đầu');
+    if(d.learnedSC.length<3) s.push('phím tắt cơ bản');
+    if(d.tpDone.length<2) s.push('Trackpad cử chỉ hai ngón');
+    s.push('Spotlight Search','Mission Control','Finder là gì','AirDrop','Handoff','Time Machine');
+    // Deduplicate and return top 5
+    return [...new Set(s)].slice(0,5);
+  },
+};
+
+function esc(s) { return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+function esc2(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── AI CHAT ──────────────────────────────────────────────────
+const AI = {
+  init() {
+    const box = document.getElementById('chatbox');
+    const hist = State.get('chatHistory');
+    box.innerHTML = '';
+    if (!hist.length) {
+      const uname = State.get('userName');
+      box.innerHTML = this._aiMsg('<div class="air"><div>'+
+        '<div class="ail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="color:var(--ac1)"><rect x="7" y="7" width="10" height="10" rx="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>MacBridge AI</div>'+
+        '<p>Xin chào'+(uname?', <strong>'+uname+'</strong>':'')+'! Tôi có thể giúp bạn về:</p>'+
+        '<div class="chip-row" style="margin-top:8px">'+
+          '<span class="chip" onclick="AI.quick(\'phím tắt cơ bản\')">⌨️ Phím tắt</span>'+
+          '<span class="chip" onclick="AI.quick(\'Mac chạy chậm\')">🐢 Sửa lỗi</span>'+
+          '<span class="chip" onclick="AI.quick(\'Spotlight\')">🔍 Tính năng</span>'+
+          '<span class="chip" onclick="Nav.go(\'checklist\')">✅ Thiết lập</span>'+
+        '</div></div></div>');
+    } else {
+      hist.slice(-20).forEach(m => {
+        box.innerHTML += m.role==='user' ? this._userMsg(m.content) : this._aiMsg(m.content, false);
+      });
+    }
+    box.scrollTop = box.scrollHeight;
+    this._renderQuick();
+  },
+  send() {
+    const inp = document.getElementById('chat-in');
+    const q = inp.value.trim(); if (!q) return;
+    inp.value = '';
+    const box = document.getElementById('chatbox');
+    box.innerHTML += this._userMsg(q);
+    State.addMsg('user', q);
+    const intent = AIEng.classify(q);
+    const tid = 't'+Date.now();
+    box.innerHTML += '<div class="ai-msg" id="'+tid+'"><div class="av"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="2.5" stroke="white" stroke-width="1.8"/><circle cx="12" cy="12" r="2" fill="white"/></svg></div><div class="bbl ai"><div class="dots"><span></span><span></span><span></span></div></div></div>';
+    box.scrollTop = box.scrollHeight;
+    setTimeout(() => {
+      const el = document.getElementById(tid); if (el) el.remove();
+      const r = AIEng.respond(q, intent);
+      box.innerHTML += this._aiMsg(r.html);
+      State.addMsg('ai', r.html, intent);
+      State.addXP(r.xp, 'Tương tác AI');
+      box.scrollTop = box.scrollHeight;
+      this._renderQuick();
+      const cnt = State.get('chatHistory').filter(m=>m.role==='user').length;
+      if (cnt===1) State.badge('first_chat','Lần hỏi đầu tiên','💬');
+      if (cnt===10) State.badge('curious','Người tò mò','🔍');
+    }, 900);
+  },
+  quick(text) { Nav.go('ai'); setTimeout(()=>{ document.getElementById('chat-in').value=text; AI.send(); },120); },
+  _userMsg(t) { return '<div class="user-msg"><div class="bbl user">'+esc2(t)+'</div></div>'; },
+  _aiMsg(html, plain=false) {
+    const c = plain ? '<p>'+esc2(html)+'</p>' : html;
+    return '<div class="ai-msg"><div class="av"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="2.5" stroke="white" stroke-width="1.8"/><circle cx="12" cy="12" r="2" fill="white"/></svg></div><div class="bbl ai">'+c+'</div></div>';
+  },
+  _renderQuick() {
+    const el = document.getElementById('ai-quick');
+    if (el) el.innerHTML = AIEng.personalSugg().map(s=>'<span class="qchip" onclick="AI.quick(\''+esc(s)+'\')">'+esc2(s)+'</span>').join('');
+  },
+};
+Inits.ai = () => AI.init();
+
+// ── SEARCH ───────────────────────────────────────────────────
+const Search = {
+  _t: null,
+  run(q) { clearTimeout(this._t); this._t = setTimeout(()=>this._exec(q),200); },
+  _exec(q) {
+    const box = document.getElementById('search-res');
+    if (!q.trim()) { box.innerHTML = this._empty(); return; }
+    const res = AIEng.fuzzy(q);
+    if (!res.length) {
+      box.innerHTML = '<div class="res-card" style="text-align:center;padding:28px"><p style="color:var(--t2);margin-bottom:12px">Không tìm thấy "'+esc2(q)+'"</p><button class="btn-p" onclick="AI.quick(\''+esc(q)+'\')" style="font-size:12px">Hỏi AI →</button></div>';
+      return;
+    }
+    State.addXP(3,'Tìm kiếm');
+    box.innerHTML = res.map(r=>this._card(r)).join('');
+  },
+  _card(r) {
+    const {type,data}=r;
+    if(type==='tip') return '<div class="res-card" onclick="AI.quick(\''+esc(data.title)+'\')"><div class="res-type">Mẹo</div><div class="res-title">'+esc2(data.title)+'</div><div class="res-sub">'+esc2(data.desc)+'</div><div class="res-kbd"><kbd>'+esc2(data.windows)+'</kbd><span style="color:var(--t3)">→</span><kbd class="k">'+esc2(data.mac)+'</kbd></div></div>';
+    if(type==='shortcut') return '<div class="res-card" onclick="AI.quick(\''+esc(data.action)+'\')"><div class="res-type">Phím tắt</div><div class="res-title">'+esc2(data.action)+'</div><div class="res-kbd"><kbd>'+esc2(data.win)+'</kbd><span style="color:var(--t3)">→</span><kbd class="k">'+esc2(data.combo)+'</kbd></div></div>';
+    if(type==='error') return '<div class="res-card" onclick="AI.quick(\''+esc(data.symptom)+'\')"><div class="res-type">Lỗi</div><div class="res-title">'+esc2(data.icon)+' '+esc2(data.symptom)+'</div><div class="res-sub">'+esc2(data.causes.slice(0,2).join(' · '))+'</div></div>';
+    if(type==='feature') return '<div class="res-card" onclick="AI.quick(\''+esc(data.name)+'\')"><div class="res-type">Đặc sản Mac</div><div class="res-title">'+esc2(data.icon)+' '+esc2(data.name)+'</div><div class="res-sub">'+esc2(data.desc)+'</div></div>';
+    return '';
+  },
+  _empty() {
+    const rec=(State.get('searchHistory')||[]).slice(0,5);
+    const pop=['Spotlight','Task Manager','phím tắt','pin yếu','cài ứng dụng'];
+    return '<div class="slabel" style="margin-top:4px">Phổ biến</div><div class="sugg-row">'+pop.map(s=>'<span class="sugg-chip" onclick="document.getElementById(\'search-in\').value=\''+esc(s)+'\';Search.run(\''+esc(s)+'\')">'+esc2(s)+'</span>').join('')+'</div>'+(rec.length?'<div class="slabel">Gần đây</div><div class="sugg-row">'+rec.map(s=>'<span class="sugg-chip" onclick="document.getElementById(\'search-in\').value=\''+esc(s)+'\';Search.run(\''+esc(s)+'\')">'+esc2(s)+'</span>').join('')+'</div>':'');
+  },
+};
+Inits.search = () => { document.getElementById('search-res').innerHTML = Search._empty(); };
+
+// ── TRACKPAD ─────────────────────────────────────────────────
+const Trackpad = {
+  _animSVG: {
+    scroll:'<circle cx="42" cy="50" r="8" fill="rgba(6,182,212,0.6)" style="animation:sc-anim 1.5s ease-in-out infinite"/><circle cx="54" cy="50" r="8" fill="rgba(6,182,212,0.6)" style="animation:sc-anim 1.5s ease-in-out infinite 0.1s"/>',
+    'two-finger-scroll':'<circle cx="42" cy="50" r="8" fill="rgba(6,182,212,0.6)" style="animation:sc-anim 1.5s ease-in-out infinite"/><circle cx="54" cy="50" r="8" fill="rgba(6,182,212,0.6)" style="animation:sc-anim 1.5s ease-in-out infinite 0.1s"/>',
+    'two-finger-tap':'<circle cx="38" cy="50" r="8" fill="rgba(6,182,212,0.6)" style="animation:tp-anim 1.5s ease-in-out infinite"/><circle cx="58" cy="50" r="8" fill="rgba(6,182,212,0.6)" style="animation:tp-anim 1.5s ease-in-out infinite 0.1s"/>',
+    'three-finger-up':'<circle cx="33" cy="55" r="7" fill="rgba(6,182,212,0.6)" style="animation:su-anim 1.8s ease-in-out infinite"/><circle cx="48" cy="55" r="7" fill="rgba(6,182,212,0.6)" style="animation:su-anim 1.8s ease-in-out infinite 0.1s"/><circle cx="63" cy="55" r="7" fill="rgba(6,182,212,0.6)" style="animation:su-anim 1.8s ease-in-out infinite 0.2s"/>',
+    'three-finger-lr':'<circle cx="28" cy="45" r="7" fill="rgba(6,182,212,0.6)" style="animation:sl-anim 1.8s ease-in-out infinite"/><circle cx="43" cy="45" r="7" fill="rgba(6,182,212,0.6)" style="animation:sl-anim 1.8s ease-in-out infinite 0.1s"/><circle cx="58" cy="45" r="7" fill="rgba(6,182,212,0.6)" style="animation:sl-anim 1.8s ease-in-out infinite 0.2s"/>',
+    'four-finger-pinch':'<circle cx="25" cy="25" r="7" fill="rgba(6,182,212,0.6)" style="animation:pin-anim 1.8s ease-in-out infinite"/><circle cx="75" cy="25" r="7" fill="rgba(180,240,0,0.6)" style="animation:pin-anim 1.8s ease-in-out infinite 0.1s"/><circle cx="25" cy="65" r="7" fill="rgba(6,182,212,0.6)" style="animation:pin-anim 1.8s ease-in-out infinite 0.05s"/><circle cx="75" cy="65" r="7" fill="rgba(180,240,0,0.6)" style="animation:pin-anim 1.8s ease-in-out infinite 0.15s"/>',
+    'two-finger-lr':'<circle cx="36" cy="45" r="8" fill="rgba(6,182,212,0.6)" style="animation:sl-anim 1.8s ease-in-out infinite"/><circle cx="60" cy="45" r="8" fill="rgba(6,182,212,0.6)" style="animation:sl-anim 1.8s ease-in-out infinite 0.12s"/>',
+    'two-finger-zoom':'<circle cx="40" cy="45" r="7" fill="rgba(6,182,212,0.6)" style="animation:zm-anim 1.8s ease-in-out infinite"/><circle cx="56" cy="45" r="7" fill="rgba(6,182,212,0.6)" style="animation:zm-anim 1.8s ease-in-out infinite 0.1s"/>',
+    'two-finger-right-edge':'<circle cx="72" cy="38" r="7" fill="rgba(6,182,212,0.6)" style="animation:sl-anim 1.8s ease-in-out infinite;animation-direction:reverse"/><circle cx="72" cy="55" r="7" fill="rgba(180,240,0,0.6)" style="animation:sl-anim 1.8s ease-in-out infinite 0.1s;animation-direction:reverse"/>',
+  },
+  renderList() {
+    const done = State.get('tpDone');
+    const prog = State.tpProg();
+    document.getElementById('tp-done').textContent = prog.done+'/'+prog.total;
+    document.getElementById('tp-xp').textContent = done.reduce((s,id)=>{const t=TRACKPAD_EXERCISES.find(x=>x.id===id);return s+(t?t.xp:0);},0);
+    document.getElementById('tp-list').innerHTML = TRACKPAD_EXERCISES.map(ex => {
+      const isDone = done.includes(ex.id);
+      return '<div class="tp-card'+(isDone?' done':'')+'" onclick="Trackpad.open(\''+ex.id+'\')">'+
+        '<div class="tp-row">'+
+          '<div class="tp-ico">'+ex.icon+'</div>'+
+          '<div style="flex:1"><div class="tp-title">'+ex.title+'</div><div class="tp-sub">'+ex.subtitle+'</div></div>'+
+          '<div class="tp-done">'+(isDone?'✅':'')+'</div>'+
+        '</div>'+
+        '<div class="tp-instr">'+ex.instruction+'</div>'+
+        '<div class="tp-hint">💡 '+ex.hint+'</div>'+
+        '<button class="tp-btn'+(isDone?' done':'')+'" onclick="event.stopPropagation();Trackpad.open(\''+ex.id+'\')">'+(isDone?'✅ Đã học — Luyện lại':'🎯 Bắt đầu luyện tập (+'+ex.xp+' XP)')+'</button>'+
+      '</div>';
+    }).join('');
+  },
+  open(id) {
+    const ex = TRACKPAD_EXERCISES.find(t=>t.id===id); if(!ex)return;
+    document.getElementById('tp-detail-crumb').textContent = ex.title;
+    const isDone = State.get('tpDone').includes(ex.id);
+    const anim = this._animSVG[ex.gesture] || this._animSVG['two-finger-tap'];
+    document.getElementById('tp-detail').innerHTML =
+      '<div style="padding-bottom:16px">'+
+      '<div class="tp-hero" style="margin-top:12px">'+
+        '<div style="font-size:44px;margin-bottom:8px">'+ex.icon+'</div>'+
+        '<div class="tp-htitle">'+ex.title+'</div>'+
+        '<div class="tp-hsub">'+ex.subtitle+'</div>'+
+      '</div>'+
+      '<div class="tp-card" style="cursor:default">'+
+        '<div style="font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px">Hướng dẫn</div>'+
+        '<div class="tp-instr" style="font-size:14px;margin-bottom:0">'+ex.instruction+'</div>'+
+      '</div>'+
+      '<div class="tp-card" style="cursor:default">'+
+        '<div style="font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Khu vực luyện tập</div>'+
+        '<div class="tp-sim" id="tp-sim" data-gesture="'+ex.gesture+'">'+
+          '<div class="tp-sim-hint" id="tp-hint">Di chuyển chuột hoặc ngón tay vào đây</div>'+
+          '<div class="tp-cur" id="tp-cur"></div>'+
+        '</div>'+
+        '<div style="display:flex;justify-content:center;padding:8px 0">'+
+          '<svg width="96" height="80" viewBox="0 0 96 80" fill="none">'+anim+'</svg>'+
+        '</div>'+
+        '<p style="font-size:11px;color:var(--t3);text-align:center">'+ex.hint+'</p>'+
+      '</div>'+
+      '<button class="tp-btn'+(isDone?' done':'')+'" id="tp-complete-btn" onclick="Trackpad.complete(\''+ex.id+'\')" style="width:100%;margin-top:2px">'+(isDone?'✅ Đã hoàn thành — luyện lại thêm':'✅ Đánh dấu đã học xong (+'+ex.xp+' XP)')+'</button>'+
+      '</div>';
+    Nav.go('trackpad-detail');
+    setTimeout(()=>this._initSim(), 100);
+  },
+  _initSim() {
+    const sim = document.getElementById('tp-sim'); if(!sim)return;
+    const cur = document.getElementById('tp-cur');
+    const hint = document.getElementById('tp-hint');
+    const move = (x,y) => {
+      if(cur){cur.style.left=x+'px';cur.style.top=y+'px';cur.style.opacity='1';}
+      if(hint)hint.style.opacity='0';
+      sim.classList.add('active');
+      const t = document.createElement('div');
+      t.className='tp-trail';t.style.left=x+'px';t.style.top=y+'px';
+      sim.appendChild(t);
+      setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),400);},80);
+    };
+    sim.addEventListener('mousemove',e=>{const r=sim.getBoundingClientRect();move(e.clientX-r.left,e.clientY-r.top);});
+    sim.addEventListener('mouseleave',()=>{if(cur)cur.style.opacity='0';sim.classList.remove('active');});
+    sim.addEventListener('touchmove',e=>{e.preventDefault();const r=sim.getBoundingClientRect();const t=e.touches[0];move(t.clientX-r.left,t.clientY-r.top);},{passive:false});
+  },
+  complete(id) {
+    State.markTP(id);
+    const btn = document.getElementById('tp-complete-btn');
+    if(btn){btn.textContent='✅ Đã hoàn thành!';btn.classList.add('done');}
+    const p = State.tpProg();
+    if(p.done===p.total) State.badge('tp_master','Thạo Trackpad','🖱️');
+    if(p.done===1) State.badge('first_gesture','Cử chỉ đầu tiên','👆');
+  },
+};
+Inits.trackpad = () => Trackpad.renderList();
+Inits['trackpad-detail'] = () => {};
+
+// ── CHECKLIST ────────────────────────────────────────────────
+const CL = {
+  render() {
+    const p = State.clProg();
+    document.getElementById('cl-pct').textContent = p.pct + '% hoàn thành';
+    document.getElementById('cl-bar').style.width = p.pct + '%';
+    const pcol={critical:'#ef4444',high:'#f97316',recommended:'#3b82f6',optional:'#6b7280'};
+    const plbl={critical:'Bắt buộc',high:'Quan trọng',recommended:'Nên làm',optional:'Tuỳ chọn'};
+    document.getElementById('cl-items').innerHTML = KB.firstDayChecklist.map(item => {
+      const done = !!State.get('clDone')[item.id];
+      const steps = item.steps.map((s,i)=>'<div class="cl-step"><span class="cl-sn">'+(i+1)+'</span>'+esc2(s)+'</div>').join('');
+      return '<div class="cl-item'+(done?' done':'')+'" id="cli-'+item.id+'">'+
+        '<div class="cl-head" onclick="CL.toggle(\''+item.id+'\',event)">'+
+          '<div class="cl-check" onclick="event.stopPropagation();CL.check(\''+item.id+'\')">'+(done?'✅':'⬜')+'</div>'+
+          '<div class="cl-info">'+
+            '<div class="cl-title">'+esc2(item.task)+'</div>'+
+            '<span class="cl-pri" style="color:'+pcol[item.priority]+'">'+plbl[item.priority]+'</span>'+
+          '</div>'+
+          '<div class="cl-arr" id="clarr-'+item.id+'">›</div>'+
+        '</div>'+
+        '<div class="cl-steps" id="clst-'+item.id+'">'+steps+'</div>'+
+      '</div>';
+    }).join('');
+  },
+  check(id) {
+    const done = State.toggleCL(id);
+    const item = document.getElementById('cli-'+id);
+    const chk = item ? item.querySelector('.cl-check') : null;
+    if(item) item.classList.toggle('done', done);
+    if(chk) chk.textContent = done ? '✅' : '⬜';
+    const p = State.clProg();
+    document.getElementById('cl-pct').textContent = p.pct + '% hoàn thành';
+    document.getElementById('cl-bar').style.width = p.pct + '%';
+    if(p.pct===100) State.badge('day1','Thiết lập hoàn tất','🏆');
+  },
+  toggle(id, e) {
+    if(e.target.classList.contains('cl-check')) return;
+    const st = document.getElementById('clst-'+id);
+    const ar = document.getElementById('clarr-'+id);
+    if(st) st.classList.toggle('open');
+    if(ar) ar.classList.toggle('open');
+  },
+};
+Inits.checklist = () => CL.render();
+
+// ── TROUBLESHOOT ─────────────────────────────────────────────
+const TS = {
+  _node:'root', _hist:[],
+  render(node) {
+    const box = document.getElementById('ts-box'); if(!box||!node)return;
+    if(node.type==='symptom-picker'||node.type==='single-choice') {
+      box.innerHTML = '<div class="ts-card">'+
+        '<div class="ts-q">'+esc2(node.question)+'</div>'+
+        '<div class="ts-opts">'+node.options.map(o=>'<button class="ts-opt" onclick="TS.choose(\''+o.next+'\')">'+esc2(o.label)+'</button>').join('')+'</div>'+
+        (this._hist.length?'<button class="ts-back" onclick="TS.back()">← Quay lại</button>':'')+
+      '</div>';
+    } else if(node.type==='solution') {
+      const steps = node.steps.map((s,i)=>'<div class="step-row"><span class="step-num">'+(i+1)+'</span><span>'+esc2(s)+'</span></div>').join('');
+      box.innerHTML = '<div class="ts-card">'+
+        '<div class="ts-q">'+esc2(node.title)+'</div>'+
+        (node.causes.length?'<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase;margin-bottom:6px">Nguyên nhân</div><ul class="cause-list">'+node.causes.map(c=>'<li>'+esc2(c)+'</li>').join('')+'</ul></div>':'')+
+        '<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase;margin-bottom:7px">Các bước xử lý</div><div class="step-list">'+steps+'</div></div>'+
+        (node.warning?'<div class="warn-box" style="margin-bottom:12px"><p>'+esc2(node.warning)+'</p></div>':'')+
+        '<div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:4px">'+
+          '<button class="ts-back" onclick="TS.back()">← Quay lại</button>'+
+          '<button class="btn-p" onclick="TS.restart()" style="font-size:12px;padding:9px 16px">Vấn đề khác</button>'+
+        '</div>'+
+        '<div style="margin-top:12px;font-size:12px;color:var(--t2)">Vẫn chưa xử lý được? <button class="ilink" onclick="AI.quick(\''+esc(node.title.replace(/[^\w\s]/gi,'').trim())+'\')">Hỏi AI →</button></div>'+
+      '</div>';
+      State.addXP(10,'Chẩn đoán lỗi');
+    }
+  },
+  choose(next) { this._hist.push(this._node); this._node=next; this.render(TroubleshootEngine.tree[next]); },
+  back() { if(this._hist.length){this._node=this._hist.pop();this.render(TroubleshootEngine.tree[this._node]);} },
+  restart() { this._node='root'; this._hist=[]; this.render(TroubleshootEngine.tree.root); },
+};
+Inits.troubleshoot = () => TS.restart();
+
+// ── KNOWLEDGE BASE ───────────────────────────────────────────
+const KBui = {
+  _tab:'tips', _filter:'all',
+  tab(t, el) {
+    this._tab=t; this._filter='all';
+    document.querySelectorAll('.kbt').forEach(e=>e.classList.remove('active'));
+    el.classList.add('active'); this.render();
+  },
+  render() {
+    const box = document.getElementById('kb-box');
+    if(this._tab==='tips') this._tips(box);
+    else if(this._tab==='errors') this._errors(box);
+    else if(this._tab==='features') this._features(box);
+    else this._optim(box);
+  },
+  _tips(box) {
+    const cats = ['all',...new Set(KB.tips.map(t=>t.category))];
+    const self = this;
+    box.innerHTML = '<div class="filter-row">'+cats.map(c=>'<span class="fc'+(c===self._filter?' active':'')+'" onclick="KBui.filterTip(\''+esc(c)+'\',this)">'+(c==='all'?'Tất cả':esc2(c))+'</span>').join('')+'</div><div id="tip-list"></div>';
+    this._tipList();
+  },
+  filterTip(cat, el) {
+    this._filter=cat;
+    document.querySelectorAll('.fc').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active'); this._tipList();
+  },
+  _tipList() {
+    const data = this._filter==='all'?KB.tips:KB.tips.filter(t=>t.category===this._filter);
+    const learned = State.get('learnedSC');
+    document.getElementById('tip-list').innerHTML = data.map(t=>'<div class="tip-card" onclick="AI.quick(\''+esc(t.title)+'\')">'+
+      '<div class="tip-top"><div><div class="tip-title">'+esc2(t.title)+'</div><div class="tip-meta">'+esc2(t.category)+' · '+esc2(t.level)+'</div></div>'+(learned.includes(t.id)?'<span style="font-size:16px">✅</span>':'')+'</div>'+
+      '<div class="tip-desc">'+esc2(t.desc)+'</div>'+
+      '<div class="tip-keys"><kbd>'+esc2(t.windows)+'</kbd><span style="color:var(--t3);font-size:12px">→</span><kbd class="k">'+esc2(t.mac)+'</kbd></div>'+
+    '</div>').join('');
+  },
+  _errors(box) {
+    box.innerHTML = KB.errors.map(e=>{
+      const steps = e.fixes.map((f,i)=>'<div class="step-row"><span class="step-num">'+(i+1)+'</span><span>'+esc2(f)+'</span></div>').join('');
+      return '<div class="acc-item" id="acc-'+e.id+'">'+
+        '<div class="acc-head" onclick="KBui.acc(\''+e.id+'\')"><span>'+esc2(e.icon)+' '+esc2(e.symptom)+'</span><span class="acc-arr" id="aca-'+e.id+'">›</span></div>'+
+        '<div class="acc-body" id="acb-'+e.id+'">'+
+          '<div class="err-causes"><strong>Nguyên nhân:</strong> '+esc2(e.causes.join(' · '))+'</div>'+
+          '<div class="step-list">'+steps+'</div>'+
+          (e.warning?'<div class="warn-box" style="margin-top:9px"><p>'+esc2(e.warning)+'</p></div>':'')+
+          '<button class="ilink" style="margin-top:9px;display:block" onclick="AI.quick(\''+esc(e.symptom)+'\')">Hỏi AI chi tiết →</button>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  },
+  acc(id) {
+    const b=document.getElementById('acb-'+id);
+    const a=document.getElementById('aca-'+id);
+    if(b)b.classList.toggle('open');
+    if(a)a.classList.toggle('open');
+  },
+  _features(box) {
+    box.innerHTML = KB.features.map(f=>'<div class="feat-card">'+
+      '<div class="feat-ico">'+f.icon+'</div>'+
+      '<div><div class="feat-name">'+esc2(f.name)+'</div><div class="feat-desc">'+esc2(f.desc)+'</div><div class="feat-how">📍 '+esc2(f.howTo)+'</div><div class="feat-benefit">✨ '+esc2(f.benefit)+'</div></div>'+
+    '</div>').join('');
+  },
+  _optim(box) {
+    box.innerHTML = KB.optimizations.map(o=>{
+      const steps = o.steps.map((s,i)=>'<div class="step-row"><span class="step-num">'+(i+1)+'</span><span>'+esc2(s)+'</span></div>').join('');
+      return '<div class="acc-item" id="acc-'+o.id+'">'+
+        '<div class="acc-head" onclick="KBui.acc(\''+o.id+'\')"><span>'+esc2(o.icon)+' '+esc2(o.title)+'</span><span class="acc-arr" id="aca-'+o.id+'">›</span></div>'+
+        '<div class="acc-body" id="acb-'+o.id+'">'+
+          '<div class="step-list">'+steps+'</div>'+
+          (o.warning?'<div class="warn-box" style="margin-top:9px"><p>'+esc2(o.warning)+'</p></div>':'')+
+        '</div>'+
+      '</div>';
+    }).join('');
+  },
+};
+Inits.knowledge = () => KBui.render();
+
+// ── COMPARE ──────────────────────────────────────────────────
+const Cmp = {
+  _p:'all',
+  persona(p, el) {
+    this._p=p;
+    document.querySelectorAll('.pc').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active'); this.render();
+  },
+  render() {
+    const pts={student:['Giá','Pin','Thiết kế','Bảo mật'],developer:['Lập trình','Hệ thống','Bảo mật'],designer:['Thiết kế','Pin','Tích hợp'],office:['Cài','Tích hợp','Bảo mật'],gamer:['Gaming','Giá','Pin','Phần mềm']};
+    let data = KB.comparisons;
+    if(this._p!=='all'){const ts=pts[this._p]||[];data=KB.comparisons.filter(c=>ts.some(t=>c.topic.includes(t)));}
+    document.getElementById('cmp-box').innerHTML = data.map(c=>{
+      const h = c.mac.score>c.windows.score?'mac':c.windows.score>c.mac.score?'win':'tie';
+      return '<div class="cmp-card">'+
+        '<div class="cmp-topic">'+esc2(c.icon)+' '+esc2(c.topic)+'</div>'+
+        '<div class="cmp-row">'+
+          '<div class="cmp-box'+(h==='win'?' win':'')+'"><div class="cmp-os">🪟</div><div class="cmp-osn">Windows</div><div class="cmp-stars">'+'⭐'.repeat(c.windows.score)+'</div><div class="cmp-detail">'+esc2(c.windows.detail)+'</div></div>'+
+          '<div class="cmp-vs">VS</div>'+
+          '<div class="cmp-box'+(h==='mac'?' win':'')+'"><div class="cmp-os">💻</div><div class="cmp-osn">macOS</div><div class="cmp-stars">'+'⭐'.repeat(c.mac.score)+'</div><div class="cmp-detail">'+esc2(c.mac.detail)+'</div></div>'+
+        '</div>'+
+        '<div class="cmp-verdict">💬 '+esc2(c.verdict)+'</div>'+
+      '</div>';
+    }).join('');
+  },
+};
+Inits.compare = () => Cmp.render();
+
+// ── SHORTCUT TRAINER ─────────────────────────────────────────
+const Trainer = {
+  _q:[], _score:0, _total:0, _streak:0, _cur:null,
+  start() {
+    this._q=[...KB.shortcuts].sort(()=>Math.random()-.5);
+    this._score=0;this._total=0;this._streak=0;
+    document.getElementById('tr-result').innerHTML='';
+    this._next();
+  },
+  _next() {
+    if(!this._q.length){this._finish();return;}
+    const sc=this._q.shift(); this._total++; this._cur=sc;
+    document.getElementById('tr-prog').textContent=this._total+'/'+KB.shortcuts.length;
+    document.getElementById('tr-correct').textContent=this._score;
+    document.getElementById('tr-q').innerHTML=
+      '<div class="tr-ql">Tổ hợp phím này làm gì?</div>'+
+      '<div class="tr-keys">'+sc.combo.split('+').map(k=>'<span class="key">'+esc2(k.trim())+'</span>').join('<span class="key-plus">+</span>')+'</div>'+
+      '<div class="tr-hint">Windows: <kbd>'+esc2(sc.win)+'</kbd></div>';
+    const opts=this._genOpts(sc);
+    document.getElementById('tr-opts').innerHTML=opts.map(o=>'<button class="tr-opt" onclick="Trainer.answer(\''+esc(o)+'\',\''+esc(sc.action)+'\',this)">'+esc2(o)+'</button>').join('');
+  },
+  _genOpts(sc) {
+    const c=sc.action;
+    const others=KB.shortcuts.filter(s=>s.action!==c).sort(()=>Math.random()-.5).slice(0,3).map(s=>s.action);
+    return [c,...others].sort(()=>Math.random()-.5);
+  },
+  answer(sel, correct, btn) {
+    const right=sel===correct;
+    document.querySelectorAll('.tr-opt').forEach(b=>{
+      b.disabled=true;
+      if(b.textContent===correct)b.classList.add('correct');
+    });
+    if(right){btn.classList.add('correct');this._score++;this._streak++;State.markSC(this._cur.id);if(this._streak>=3)Toast.win('🔥 '+this._streak+' đúng liên tiếp!');}
+    else{btn.classList.add('wrong');this._streak=0;}
+    setTimeout(()=>this._next(),1300);
+  },
+  _finish() {
+    const pct=Math.round(this._score/KB.shortcuts.length*100);
+    State.addXP(this._score*20,'Luyện phím tắt');
+    if(pct>=80)State.badge('sc_master','Thạo phím tắt','⌨️');
+    document.getElementById('tr-q').innerHTML='';
+    document.getElementById('tr-opts').innerHTML='';
+    const icon=pct>=80?'🏆':pct>=60?'🎯':'📚';
+    const msg=pct>=80?'Xuất sắc! Bạn đã thạo phím tắt Mac!':pct>=60?'Tốt! Tiếp tục luyện tập nhé!':'Hãy ôn luyện thêm!';
+    document.getElementById('tr-result').innerHTML=
+      '<div style="text-align:center;padding:18px">'+
+        '<div style="font-size:48px">'+icon+'</div>'+
+        '<div style="font-size:36px;font-weight:900;background:linear-gradient(135deg,var(--ac1),var(--ac3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0">'+this._score+'/'+KB.shortcuts.length+'</div>'+
+        '<p style="color:var(--t2);margin-bottom:14px">'+pct+'% chính xác — '+msg+'</p>'+
+        '<button class="btn-p" onclick="Trainer.start()">Chơi lại</button>'+
+      '</div>';
+  },
+};
+Inits.trainer = () => {
+  const learned = State.get('learnedSC').length;
+  const total = KB.shortcuts.length;
+  document.getElementById('tr-result').innerHTML='';
+  document.getElementById('tr-q').innerHTML=
+    '<div style="text-align:center;padding:8px 0">'+
+    '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" style="color:var(--ac1);margin:0 auto 12px;display:block">'+
+    '<rect x="2" y="7" width="20" height="13" rx="2.5" stroke="currentColor" stroke-width="1.8"/>'+
+    '<rect x="5" y="10" width="3" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/>'+
+    '<rect x="10.5" y="10" width="3" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/>'+
+    '<rect x="16" y="10" width="3" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/>'+
+    '<rect x="7" y="15" width="10" height="2.5" rx="1" stroke="currentColor" stroke-width="1.4"/></svg>'+
+    '<div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:6px">'+total+' phím tắt quan trọng nhất</div>'+
+    (learned>0?'<div style="font-size:11px;color:var(--green);margin-bottom:12px">Bạn đã học được '+learned+'/'+total+' phím tắt ✅</div>':'<p style="color:var(--t3);font-size:12px;margin-bottom:14px;line-height:1.5">Mỗi câu hỏi: chọn hành động đúng cho tổ hợp phím hiển thị</p>')+
+    '<button class="btn-p" onclick="Trainer.start()">'+(learned>0?'Luyện lại →':'Bắt đầu →')+'</button>'+
+    '</div>';
+  document.getElementById('tr-opts').innerHTML='';
+};
+
+// ── SETTINGS ─────────────────────────────────────────────────
+const Settings = {
+  _initThemeGrid() {
+    document.getElementById('theme-grid').innerHTML = THEMES.map(t=>
+      '<div class="tsw'+(State.get('theme')===t.id?' active':'')+'" style="--sw-c:'+t.c1+';--sw-c2:'+t.c2+'" onclick="Settings.pickTheme(\''+t.id+'\',\''+t.c1+'\',\''+t.c2+'\',\''+t.c3+'\',this)">'+
+        '<div class="sw-prev"></div>'+
+        '<div class="sw-name">'+t.name+'</div>'+
+      '</div>'
+    ).join('');
+  },
+  pickTheme(id, c1, c2, c3, el) {
+    State.set('theme',id); State.set('ac1',c1); State.set('ac2',c2); State.set('ac3',c3);
+    ThemeEngine.apply(c1,c2,c3);
+    document.querySelectorAll('.tsw').forEach(d=>d.classList.remove('active'));
+    el.classList.add('active');
+    Toast.info('Đã đổi sang '+THEMES.find(t=>t.id===id)?.name);
+  },
+  toggleDark() {
+    const isLight = document.body.classList.toggle('light');
+    State.set('lightMode', isLight);
+    const tr = document.getElementById('dm-track'); if(tr) tr.classList.toggle('on',isLight);
+    const lbl = document.getElementById('dm-lbl'); if(lbl) lbl.textContent='Đang dùng: '+(isLight?'Sáng':'Tối');
+    const icon = document.getElementById('dm-icon');
+    if(icon) icon.innerHTML = isLight
+      ? '<circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
+      : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>';
+    Toast.info(isLight?'Chế độ sáng':'Chế độ tối');
+  },
+  saveName() {
+    const n = document.getElementById('s-name').value.trim();
+    State.set('userName', n);
+    this._updateGreeting(n);
+    Toast.info(n?'Xin chào, '+n+'!':'Đã cập nhật tên');
+  },
+  _updateGreeting(name) {
+    const h = new Date().getHours();
+    const gr = h<5?'Chào buổi đêm':h<12?'Chào buổi sáng':h<18?'Chào buổi chiều':'Chào buổi tối';
+    document.getElementById('greeting-lbl').textContent = name ? gr+',' : 'Chào mừng';
+    document.getElementById('hero-name').textContent = name || 'Người dùng mới';
+  },
+  sliderChange() {
+    const h=parseInt(document.getElementById('sl-hue').value);
+    const s=parseInt(document.getElementById('sl-sat').value);
+    const l=parseInt(document.getElementById('sl-bri').value);
+    document.getElementById('sl-hue-val').textContent=h+'°';
+    document.getElementById('sl-sat-val').textContent=s+'%';
+    document.getElementById('sl-bri-val').textContent=l+'%';
+    const c1=ThemeEngine.fromHSL(h,s,l);
+    const c2=ThemeEngine.fromHSL((h+30)%360,s,Math.max(20,l-10));
+    const c3=ThemeEngine.fromHSL((h+60)%360,Math.min(100,s-10),Math.min(80,l+8));
+    ThemeEngine.apply(c1,c2,c3);
+    State.set('ac1',c1); State.set('ac2',c2); State.set('ac3',c3);
+    document.querySelectorAll('.tsw').forEach(d=>d.classList.remove('active'));
+    const cp=document.getElementById('cp-color'); if(cp)cp.value=c1;
+    const chex=document.getElementById('cp-hex'); if(chex)chex.value=c1;
+  },
+  colorPick(hex) {
+    document.getElementById('cp-hex').value = hex;
+    this._applyCustomColor(hex);
+  },
+  hexInput(val) {
+    if(/^#[0-9A-Fa-f]{6}$/.test(val)) {
+      document.getElementById('cp-color').value = val;
+      this._applyCustomColor(val);
+    }
+  },
+  applyHex() {
+    const val = document.getElementById('cp-hex').value;
+    if(/^#[0-9A-Fa-f]{6}$/.test(val)) this._applyCustomColor(val);
+    else Toast.err('Mã màu không hợp lệ (cần dạng #RRGGBB)');
+  },
+  _applyCustomColor(hex) {
+    const r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
+    const max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min;
+    let h=0;
+    if(d>0){if(max===r)h=60*((g-b)/d+(g<b?6:0));else if(max===g)h=60*((b-r)/d+2);else h=60*((r-g)/d+4);}
+    const s=max===0?0:d/max*100,l=(max+min)/2*100;
+    document.getElementById('sl-hue').value=Math.round(h);
+    document.getElementById('sl-sat').value=Math.round(s);
+    document.getElementById('sl-bri').value=Math.round(l);
+    document.getElementById('sl-hue-val').textContent=Math.round(h)+'°';
+    document.getElementById('sl-sat-val').textContent=Math.round(s)+'%';
+    document.getElementById('sl-bri-val').textContent=Math.round(l)+'%';
+    const c2=ThemeEngine.fromHSL((h+30)%360,s,Math.max(20,l-10));
+    const c3=ThemeEngine.fromHSL((h+60)%360,Math.max(20,s-10),Math.min(80,l+8));
+    ThemeEngine.apply(hex,c2,c3);
+    State.set('ac1',hex); State.set('ac2',c2); State.set('ac3',c3);
+    document.querySelectorAll('.tsw').forEach(d=>d.classList.remove('active'));
+  },
+  reset() { if(confirm('Xoá toàn bộ dữ liệu? Điểm XP, tiến độ và cài đặt sẽ bị xoá hoàn toàn.')) State.reset(); },
+};
+Inits.settings = () => {
+  Settings._initThemeGrid();
+  const d = State.get();
+  if(d.userName) document.getElementById('s-name').value = d.userName;
+  // Populate XP summary
+  const xpEl = document.getElementById('set-xp-num');
+  const lvEl = document.getElementById('set-level-txt');
+  const lbEl = document.getElementById('set-lbar');
+  const lpEl = document.getElementById('set-lbar-pct');
+  if(xpEl) xpEl.textContent = d.xp;
+  if(lvEl) lvEl.textContent = 'Cấp '+(d.level+1)+' — '+(LEVELS[d.level]||LEVELS[0]).name;
+  const pct = State.lvPct();
+  if(lbEl) lbEl.style.width = pct+'%';
+  if(lpEl) lpEl.textContent = pct+'%';
+};
+
+// ── DASHBOARD ────────────────────────────────────────────────
+function renderDash() {
+  const s = State.get();
+  const pct = State.lvPct();
+  const lv = LEVELS[s.level]||LEVELS[0];
+  const clP = State.clProg();
+  const tpP = State.tpProg();
+
+  document.getElementById('xp-val').textContent = s.xp;
+  document.getElementById('circ-num').textContent = s.xp;
+  document.getElementById('level-badge').innerHTML =
+    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>' + lv.name;
+  document.getElementById('lbar-left').textContent = 'Cấp '+(s.level+1)+' — '+lv.name;
+  document.getElementById('lbar-right').textContent = pct+'%';
+  document.getElementById('lbar').style.width = pct+'%';
+
+  // Circular progress
+  const arc = document.getElementById('circ-arc');
+  if(arc){const c=2*Math.PI*30,off=c-(pct/100)*c;arc.style.strokeDashoffset=off;}
+
+  // Stats
+  document.getElementById('stat-sc').textContent = s.learnedSC.length+'/15';
+  document.getElementById('stat-cl').textContent = clP.done+'/'+clP.total;
+  document.getElementById('stat-tp').textContent = tpP.done+'/'+tpP.total;
+
+  // Greeting
+  Settings._updateGreeting(s.userName);
+
+  // Suggestions
+  document.getElementById('dash-sugg').innerHTML =
+    AIEng.personalSugg().map(sg=>'<span class="sugg-chip" onclick="AI.quick(\''+esc(sg)+'\')">'+esc2(sg)+'</span>').join('');
+
+  // Badges
+  document.getElementById('dash-badges').innerHTML = s.badges.length
+    ? s.badges.slice(-6).map(b=>'<div class="badge-ic" title="'+esc2(b.name)+'">'+b.icon+'</div>').join('')
+    : '<span style="font-size:12px;color:var(--t3)">Chưa có huy hiệu — hãy bắt đầu học!</span>';
+}
+Inits.dashboard = () => renderDash();
+
+// ── BOOTSTRAP ────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  State.init();
+
+  // Apply saved theme
+  const d = State.get();
+  if(d.ac1) ThemeEngine.apply(d.ac1, d.ac2||d.ac1, d.ac3||d.ac1);
+
+  // Apply dark/light mode
+  if(d.lightMode) {
+    document.body.classList.add('light');
+    const tr=document.getElementById('dm-track'); if(tr)tr.classList.add('on');
+    const lbl=document.getElementById('dm-lbl'); if(lbl)lbl.textContent='Đang dùng: Sáng';
+    const icon=document.getElementById('dm-icon');
+    if(icon) icon.innerHTML='<circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>';
+  }
+
+  Nav.go('dashboard');
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    if(e.key==='Escape') Nav.back();
+    if(e.key==='Enter' && document.activeElement===document.getElementById('chat-in')) AI.send();
+  });
+});
+
+</script>
+</body>
+</html>
